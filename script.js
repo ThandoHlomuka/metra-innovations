@@ -318,18 +318,29 @@ function handleContactSubmit(event) {
         return;
     }
     
-    // Simulate form submission
-    const submitBtn = event.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    submitBtn.disabled = true;
+    // Create mailto link with form data
+    const subject = `New Website Inquiry from ${data.name} - ${data.service}`;
+    const body = `Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone || 'Not provided'}
+Service: ${data.service}
+Budget: ${data.budget || 'Not specified'}
+
+Message:
+${data.message}
+
+---
+Sent from Metra Innovations Website`;
+
+    // Open email client
+    window.location.href = `mailto:rachelmageza4@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
+    // Show success notification
+    showNotification('Opening your email client... Please send the email to complete your inquiry.', 'success');
+    
+    // Reset form after delay
     setTimeout(() => {
-        console.log('Form submitted:', data);
-        showNotification('Message sent successfully! We will get back to you soon.', 'success');
         event.target.reset();
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
     }, 2000);
 }
 
