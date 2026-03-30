@@ -1,13 +1,14 @@
 // ==================== INITIALIZATION ====================
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Metra Innovations - Website Loaded');
-    
+
     initNavbar();
     initSmoothScroll();
     initCounterAnimation();
     initPortfolioFilter();
     initFormValidation();
     initAnimations();
+    initSocialSharing();
 });
 
 // ==================== NAVBAR ====================
@@ -155,10 +156,10 @@ function initPortfolioFilter() {
 // ==================== PROJECT MODAL ====================
 const projectData = {
     1: {
-        title: 'Online Fashion Store',
+        title: 'Online Store',
         category: 'E-commerce',
-        image: 'E-commerce Platform',
-        description: 'A full-featured e-commerce platform built for a fashion retailer. The platform includes inventory management, payment gateway integration, and a responsive design that works seamlessly across all devices.',
+        image: 'Online Store',
+        description: 'A full-featured e-commerce platform built for online retail. The platform includes inventory management, payment gateway integration, and a responsive design that works seamlessly across all devices.',
         features: [
             'Custom e-commerce platform',
             'Payment gateway integration (PayFast, Yoco)',
@@ -168,58 +169,58 @@ const projectData = {
             'Responsive mobile-first design'
         ],
         technologies: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
-        client: 'Fashion Hub',
+        client: 'Online Retailer',
         year: '2025'
     },
     2: {
-        title: 'Business Management System',
-        category: 'Web Development',
-        image: 'Web Application',
-        description: 'A comprehensive CRM system designed for enterprise clients to manage customer relationships, track sales, and automate business processes.',
+        title: 'Digital Audio Workstation (DAW)',
+        category: 'Software',
+        image: 'Digital Audio Workstation',
+        description: 'A professional audio production software designed for musicians, producers, and audio engineers. Features multi-track recording, MIDI sequencing, and advanced audio processing capabilities.',
         features: [
-            'Customer relationship management',
-            'Sales pipeline tracking',
-            'Automated reporting',
-            'Team collaboration tools',
-            'Integration with existing systems',
-            'Role-based access control'
+            'Multi-track audio recording',
+            'MIDI sequencing and editing',
+            'VST plugin support',
+            'Advanced mixing console',
+            'Real-time audio effects',
+            'Export to multiple formats'
         ],
-        technologies: ['Vue.js', 'Laravel', 'MySQL', 'Redis'],
-        client: 'Enterprise Corp',
+        technologies: ['C++', 'JUCE Framework', 'WebAudio API', 'FFmpeg'],
+        client: 'Audio Pro Solutions',
         year: '2025'
     },
     3: {
-        title: 'Fitness Tracking App',
-        category: 'Mobile Apps',
-        image: 'Mobile App',
-        description: 'A cross-platform fitness and health tracking application that helps users monitor their workouts, track nutrition, and achieve their fitness goals.',
+        title: 'E-tolling Payment System',
+        category: 'Web Development',
+        image: 'E-tolling System',
+        description: 'An electronic toll collection and payment platform that enables seamless toll payments for motorists. The system includes account management, automated billing, and real-time transaction processing.',
         features: [
-            'Workout tracking and planning',
-            'Nutrition logging',
-            'Progress visualization',
-            'Social features and challenges',
-            'Integration with wearables',
-            'Personalized recommendations'
+            'Electronic toll collection',
+            'Account management portal',
+            'Automated billing system',
+            'Real-time transaction processing',
+            'SMS and email notifications',
+            'Integration with banking systems'
         ],
-        technologies: ['React Native', 'Firebase', 'Node.js', 'HealthKit'],
-        client: 'FitTrack',
+        technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Redis'],
+        client: 'Transport Authority',
         year: '2025'
     },
     4: {
-        title: 'Inventory Management System',
+        title: 'Task Finder',
         category: 'Software',
-        image: 'Software Solution',
-        description: 'An automated inventory tracking system for a retail chain that streamlines stock management, reduces waste, and improves operational efficiency.',
+        image: 'Task Finder',
+        description: 'A comprehensive task management and productivity platform designed to help individuals and teams organize, track, and complete their work efficiently. Features intuitive task creation, priority management, and collaborative tools.',
         features: [
-            'Real-time inventory tracking',
-            'Automated reorder points',
-            'Multi-location support',
-            'Barcode scanning',
-            'Analytics and reporting',
-            'Integration with POS systems'
+            'Task creation and management',
+            'Priority and deadline tracking',
+            'Team collaboration tools',
+            'Progress visualization',
+            'Automated reminders',
+            'Integration with calendar apps'
         ],
-        technologies: ['C#', '.NET Core', 'SQL Server', 'Azure'],
-        client: 'RetailCo',
+        technologies: ['TypeScript', 'React', 'Node.js', 'PostgreSQL'],
+        client: 'Productivity Solutions',
         year: '2025'
     }
 };
@@ -333,7 +334,7 @@ ${data.message}
 Sent from Metra Innovations Website`;
 
     // Open email client
-    window.location.href = `mailto:rachelmageza4@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:info@metramarket.co.za?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     // Show success notification
     showNotification('Opening your email client... Please send the email to complete your inquiry.', 'success');
@@ -464,8 +465,60 @@ function initAnimations() {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeProjectModal();
+        closeCareersPopup();
     }
 });
+
+// ==================== CAREERS POPUP ====================
+function showCareersPopup() {
+    const modal = document.getElementById('careersModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeCareersPopup() {
+    const modal = document.getElementById('careersModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ==================== SOCIAL MEDIA SHARING ====================
+function initSocialSharing() {
+    const socialLinks = document.querySelectorAll('.social-link');
+    
+    const shareData = {
+        title: 'Metra Innovations - South African Software Development Company',
+        text: 'Check out Metra Innovations - Leading South African Software Development Company specializing in Web Development, Software Solutions, and E-commerce Platforms.',
+        url: window.location.href
+    };
+
+    socialLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const platform = link.querySelector('i').className;
+            
+            if (platform.includes('facebook-f')) {
+                openShareWindow(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}`);
+            } else if (platform.includes('twitter')) {
+                openShareWindow(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}`);
+            } else if (platform.includes('linkedin-in')) {
+                openShareWindow(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(shareData.url)}&title=${encodeURIComponent(shareData.title)}`);
+            } else if (platform.includes('github')) {
+                window.open('https://github.com/', '_blank');
+            } else if (platform.includes('instagram')) {
+                window.open('https://instagram.com/', '_blank');
+            }
+        });
+    });
+}
+
+function openShareWindow(url) {
+    window.open(url, '_blank', 'width=600,height=400,left=' + (screen.width / 2 - 300) + ',top=' + (screen.height / 2 - 200));
+}
 
 // Preload images
 function preloadImages(images) {
@@ -503,3 +556,493 @@ function throttle(func, limit) {
 console.log('💼 Metra Innovations - Ready to Build Something Great');
 console.log('📧 Contact: hello@metrainnovations.co.za');
 console.log('📞 Phone: +27 11 123 4567');
+
+// ==================== ADMIN DASHBOARD ====================
+let isAdminLoggedIn = false;
+let contactQueries = [];
+let newsletterSubscribers = [];
+let analyticsData = {
+    visits: 0,
+    users: 0,
+    pageViews: { home: 0, services: 0, portfolio: 0, contact: 0 },
+    dailyViews: [0, 0, 0, 0, 0, 0, 0],
+    devices: { desktop: 0, mobile: 0, tablet: 0 }
+};
+
+// Load data from localStorage
+function loadAdminData() {
+    const savedQueries = localStorage.getItem('metraQueries');
+    const savedSubscribers = localStorage.getItem('metraSubscribers');
+    const savedAnalytics = localStorage.getItem('metraAnalytics');
+
+    if (savedQueries) contactQueries = JSON.parse(savedQueries);
+    if (savedSubscribers) newsletterSubscribers = JSON.parse(savedSubscribers);
+    if (savedAnalytics) analyticsData = JSON.parse(savedAnalytics);
+
+    updateAdminDashboard();
+}
+
+// Save data to localStorage
+function saveAdminData() {
+    localStorage.setItem('metraQueries', JSON.stringify(contactQueries));
+    localStorage.setItem('metraSubscribers', JSON.stringify(newsletterSubscribers));
+    localStorage.setItem('metraAnalytics', JSON.stringify(analyticsData));
+    updateAdminDashboard();
+}
+
+// Track page visit
+function trackPageVisit() {
+    analyticsData.visits++;
+    analyticsData.users = Math.floor(analyticsData.visits * 0.7);
+
+    // Track page views
+    const hash = window.location.hash || '#home';
+    const pageMap = { '#home': 'home', '#services': 'services', '#portfolio': 'portfolio', '#contact': 'contact' };
+    const page = pageMap[hash] || 'home';
+    analyticsData.pageViews[page]++;
+
+    // Track device
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isTablet = /iPad|Android(?!.*Mobile)/i.test(navigator.userAgent);
+    if (isTablet) analyticsData.devices.tablet++;
+    else if (isMobile) analyticsData.devices.mobile++;
+    else analyticsData.devices.desktop++;
+
+    // Update daily views (simulate)
+    const todayIndex = new Date().getDay();
+    analyticsData.dailyViews[todayIndex]++;
+
+    saveAdminData();
+}
+
+// Update admin dashboard UI
+function updateAdminDashboard() {
+    // Update stats
+    document.getElementById('totalVisits').textContent = analyticsData.visits.toLocaleString();
+    document.getElementById('uniqueUsers').textContent = analyticsData.users.toLocaleString();
+    document.getElementById('totalQueries').textContent = contactQueries.length;
+    document.getElementById('totalSubscribers').textContent = newsletterSubscribers.length;
+
+    // Update badges
+    document.getElementById('queriesCount').textContent = contactQueries.length;
+    document.getElementById('subscribersCount').textContent = newsletterSubscribers.length;
+
+    // Update page views
+    document.getElementById('homeViews').textContent = analyticsData.pageViews.home.toLocaleString();
+    document.getElementById('servicesViews').textContent = analyticsData.pageViews.services.toLocaleString();
+    document.getElementById('portfolioViews').textContent = analyticsData.pageViews.portfolio.toLocaleString();
+    document.getElementById('contactViews').textContent = analyticsData.pageViews.contact.toLocaleString();
+
+    // Update device breakdown
+    const totalDevices = analyticsData.devices.desktop + analyticsData.devices.mobile + analyticsData.devices.tablet;
+    if (totalDevices > 0) {
+        document.getElementById('desktopPercent').textContent = Math.round((analyticsData.devices.desktop / totalDevices) * 100) + '%';
+        document.getElementById('mobilePercent').textContent = Math.round((analyticsData.devices.mobile / totalDevices) * 100) + '%';
+        document.getElementById('tabletPercent').textContent = Math.round((analyticsData.devices.tablet / totalDevices) * 100) + '%';
+    }
+
+    // Update recent queries
+    const recentQueriesList = document.getElementById('recentQueriesList');
+    if (contactQueries.length > 0) {
+        recentQueriesList.innerHTML = contactQueries.slice(-3).reverse().map(q => `
+            <div class="query-item">
+                <div class="query-header">
+                    <div class="query-info">
+                        <h4>${escapeHtml(q.name)}</h4>
+                        <span>${escapeHtml(q.email)}</span>
+                    </div>
+                    <span class="query-date">${formatDate(q.date)}</span>
+                </div>
+                <p class="query-body">${escapeHtml(q.message).substring(0, 100)}...</p>
+            </div>
+        `).join('');
+    }
+
+    // Update recent subscribers
+    const recentSubscribersList = document.getElementById('recentSubscribersList');
+    if (newsletterSubscribers.length > 0) {
+        recentSubscribersList.innerHTML = newsletterSubscribers.slice(-3).reverse().map(s => `
+            <div class="subscriber-item">
+                <div class="query-header">
+                    <div class="query-info">
+                        <h4>${escapeHtml(s.email)}</h4>
+                        <span>Newsletter Subscriber</span>
+                    </div>
+                    <span class="query-date">${formatDate(s.date)}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update queries list
+    const queriesList = document.getElementById('queriesList');
+    if (contactQueries.length > 0) {
+        queriesList.innerHTML = contactQueries.reverse().map((q, index) => `
+            <div class="query-item">
+                <div class="query-header">
+                    <div class="query-info">
+                        <h4>${escapeHtml(q.name)}</h4>
+                        <span>${escapeHtml(q.email)} ${q.phone ? '• ' + escapeHtml(q.phone) : ''}</span>
+                    </div>
+                    <span class="query-date">${formatDate(q.date)}</span>
+                </div>
+                <p class="query-body">${escapeHtml(q.message)}</p>
+                <div class="query-meta">
+                    <div class="meta-item"><strong>Service:</strong><span>${escapeHtml(q.service)}</span></div>
+                    <div class="meta-item"><strong>Budget:</strong><span>${q.budget || 'Not specified'}</span></div>
+                </div>
+                <div class="query-actions">
+                    <a href="mailto:${escapeHtml(q.email)}" class="btn-xs primary">
+                        <i class="fas fa-reply"></i> Reply
+                    </a>
+                    <button class="btn-xs secondary" onclick="deleteQuery(${contactQueries.length - 1 - index})">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update subscribers list
+    const subscribersList = document.getElementById('subscribersList');
+    if (newsletterSubscribers.length > 0) {
+        subscribersList.innerHTML = newsletterSubscribers.reverse().map((s, index) => `
+            <div class="subscriber-item">
+                <div class="query-header">
+                    <div class="query-info">
+                        <h4>${escapeHtml(s.email)}</h4>
+                        <span>Newsletter Subscriber</span>
+                    </div>
+                    <span class="query-date">${formatDate(s.date)}</span>
+                </div>
+                <div class="query-actions">
+                    <a href="mailto:${escapeHtml(s.email)}" class="btn-xs primary">
+                        <i class="fas fa-envelope"></i> Email
+                    </a>
+                    <button class="btn-xs secondary" onclick="deleteSubscriber(${newsletterSubscribers.length - 1 - index})">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update page views chart
+    updatePageViewsChart();
+}
+
+// Update page views chart
+function updatePageViewsChart() {
+    const chartBars = document.getElementById('pageViewsBars');
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const maxValue = Math.max(...analyticsData.dailyViews, 1);
+
+    chartBars.innerHTML = analyticsData.dailyViews.map((value, index) => `
+        <div class="chart-bar">
+            <div class="chart-bar-fill" style="height: ${(value / maxValue) * 150}px;"></div>
+            <span class="chart-bar-label">${days[index]}</span>
+        </div>
+    `).join('');
+}
+
+// Admin login functions
+function openAdminLogin() {
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeAdminLogin() {
+    const modal = document.getElementById('adminLoginModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+function handleAdminLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('adminEmail').value;
+    const password = document.getElementById('adminPassword').value;
+
+    // Simple demo authentication (in production, use proper backend auth)
+    if (email === 'admin@metrainnovations.co.za' && password === 'admin123') {
+        isAdminLoggedIn = true;
+        closeAdminLogin();
+        openDashboard();
+        showNotification('Welcome back, Admin!', 'success');
+    } else {
+        showNotification('Invalid credentials. Please try again.', 'error');
+    }
+}
+
+function handleAdminLogout() {
+    isAdminLoggedIn = false;
+    closeDashboard();
+    showNotification('Successfully logged out', 'success');
+}
+
+function openDashboard() {
+    const dashboard = document.getElementById('adminDashboard');
+    if (dashboard) {
+        dashboard.classList.add('active');
+        loadAdminData();
+    }
+}
+
+function closeDashboard() {
+    const dashboard = document.getElementById('adminDashboard');
+    if (dashboard) {
+        dashboard.classList.remove('active');
+    }
+}
+
+// Tab switching
+function switchTab(tabName) {
+    // Update nav links
+    document.querySelectorAll('.admin-nav-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.dataset.tab === tabName) {
+            link.classList.add('active');
+        }
+    });
+
+    // Update tabs
+    document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.getElementById(tabName + 'Tab').classList.add('active');
+
+    // Update page title
+    const titles = {
+        dashboard: 'Dashboard Overview',
+        queries: 'Contact Queries',
+        newsletter: 'Newsletter Subscribers',
+        analytics: 'Analytics & Reports'
+    };
+    document.getElementById('adminPageTitle').textContent = titles[tabName];
+}
+
+// Initialize admin nav
+function initAdminNav() {
+    document.querySelectorAll('.admin-nav-link[data-tab]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const tabName = link.dataset.tab;
+            switchTab(tabName);
+        });
+    });
+}
+
+// Delete functions
+function deleteQuery(index) {
+    if (confirm('Are you sure you want to delete this query?')) {
+        contactQueries.splice(index, 1);
+        saveAdminData();
+        showNotification('Query deleted successfully', 'success');
+    }
+}
+
+function deleteSubscriber(index) {
+    if (confirm('Are you sure you want to remove this subscriber?')) {
+        newsletterSubscribers.splice(index, 1);
+        saveAdminData();
+        showNotification('Subscriber removed successfully', 'success');
+    }
+}
+
+// Export functions
+function exportQueries() {
+    const csvContent = 'Name,Email,Phone,Service,Budget,Message,Date\n' +
+        contactQueries.map(q =>
+            `"${q.name}","${q.email}","${q.phone || ''}","${q.service}","${q.budget || ''}","${q.message.replace(/"/g, '""')}","${q.date}"`
+        ).join('\n');
+
+    downloadFile(csvContent, 'contact-queries.csv', 'text/csv');
+}
+
+function exportSubscribers() {
+    const csvContent = 'Email,Date\n' +
+        newsletterSubscribers.map(s => `"${s.email}","${s.date}"`).join('\n');
+
+    downloadFile(csvContent, 'newsletter-subscribers.csv', 'text/csv');
+}
+
+function downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Utility functions
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-ZA', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+// Modify contact form handler to save queries
+const originalHandleContactSubmit = window.handleContactSubmit;
+window.handleContactSubmit = function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    // Validate
+    if (!data.name || !data.email || !data.service || !data.message) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+
+    // Validate custom service field if Other or Custom Solutions is selected
+    if ((data.service === 'other' || data.service === 'custom-solutions') && !data.customService) {
+        showNotification('Please specify your service requirement', 'error');
+        return;
+    }
+
+    // Determine the service name to display
+    let serviceName = data.service;
+    if (data.service === 'custom-solutions') {
+        serviceName = 'Custom Solutions' + (data.customService ? ` - ${data.customService}` : '');
+    } else if (data.service === 'other') {
+        serviceName = 'Other' + (data.customService ? ` - ${data.customService}` : '');
+    }
+
+    // Save query to admin dashboard
+    contactQueries.push({
+        name: data.name,
+        email: data.email,
+        phone: data.phone || '',
+        service: serviceName,
+        budget: data.budget || '',
+        message: data.message,
+        customService: data.customService || '',
+        date: new Date().toISOString()
+    });
+    saveAdminData();
+
+    // Show success notification and modal
+    showNotification('Message sent successfully! We will get back to you soon.', 'success');
+    showSubmissionSuccess(data.name);
+
+    // Reset form
+    event.target.reset();
+    const customServiceGroup = document.getElementById('customServiceGroup');
+    if (customServiceGroup) {
+        customServiceGroup.style.display = 'none';
+    }
+};
+
+// Show submission success modal
+function showSubmissionSuccess(clientName) {
+    const successModal = document.getElementById('submissionSuccessModal');
+    const successMessage = document.getElementById('successMessage');
+    
+    if (successMessage) {
+        successMessage.innerHTML = `
+            <p>Dear <strong>${escapeHtml(clientName)}</strong>,</p>
+            <p>Thank you for contacting Metra Innovations! We have received your inquiry and our team will review it shortly.</p>
+            <p>Expected response time: <strong>24-48 hours</strong></p>
+            <p class="success-note">You can also view your submission status in our admin dashboard or contact us directly at <strong>065 160 1948</strong>.</p>
+        `;
+    }
+    
+    if (successModal) {
+        successModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeSubmissionSuccess() {
+    const successModal = document.getElementById('submissionSuccessModal');
+    if (successModal) {
+        successModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Modify newsletter handler to save subscribers
+const originalHandleNewsletterSubmit = window.handleNewsletterSubmit;
+window.handleNewsletterSubmit = function(event) {
+    event.preventDefault();
+
+    const email = event.target.querySelector('input[type="email"]').value;
+
+    if (!email) {
+        showNotification('Please enter your email address', 'error');
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+
+    // Save subscriber
+    newsletterSubscribers.push({
+        email: email,
+        date: new Date().toISOString()
+    });
+    saveAdminData();
+
+    // Simulate subscription
+    const submitBtn = event.target.querySelector('button');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+    setTimeout(() => {
+        console.log('Newsletter subscription:', email);
+        showNotification('Thank you for subscribing!', 'success');
+        event.target.reset();
+        submitBtn.innerHTML = originalHTML;
+    }, 1500);
+};
+
+// Initialize admin on page load
+document.addEventListener('DOMContentLoaded', () => {
+    trackPageVisit();
+    initAdminNav();
+    loadAdminData();
+});
+
+// ==================== CUSTOM SERVICE FIELD ====================
+function toggleCustomServiceField() {
+    const serviceSelect = document.getElementById('service');
+    const customServiceGroup = document.getElementById('customServiceGroup');
+    const customServiceInput = document.getElementById('customService');
+
+    if (serviceSelect.value === 'other' || serviceSelect.value === 'custom-solutions') {
+        customServiceGroup.style.display = 'flex';
+        customServiceInput.required = true;
+    } else {
+        customServiceGroup.style.display = 'none';
+        customServiceInput.required = false;
+        customServiceInput.value = '';
+    }
+}

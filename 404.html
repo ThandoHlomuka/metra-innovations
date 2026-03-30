@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Metra Innovations - Web Developers South Africa</title>
+    <meta name="description" content="Page not found. Return to Metra Innovations - Leading software engineers and web developers in South Africa.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        .error-page {
+            min-height: 100vh;
+            background: var(--gray-900);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .error-content {
+            max-width: 600px;
+        }
+
+        .error-code {
+            font-size: 10rem;
+            font-weight: 900;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 1rem;
+        }
+
+        .error-message {
+            color: var(--gray-400);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-contact {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .error-contact p {
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+
+        .error-contact a {
+            color: var(--red-light);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-page">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                Oops! The page you're looking for doesn't exist or has been moved. 
+                Let's get you back to building something great!
+            </p>
+            
+            <div class="error-actions">
+                <a href="index.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-home"></i> Go Home
+                </a>
+                <a href="index.html#contact" class="btn btn-outline btn-lg">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+                <a href="index.html#services" class="btn btn-outline btn-lg">
+                    <i class="fas fa-code"></i> Our Services
+                </a>
+            </div>
+
+            <div class="error-contact">
+                <p>Looking for web development services in South Africa?</p>
+                <p>
+                    <a href="tel:+27651601948"><i class="fas fa-phone"></i> 065 160 1948</a>
+                    &nbsp;|&nbsp;
+                    <a href="mailto:hello@metrainnovations.co.za"><i class="fas fa-envelope"></i> hello@metrainnovations.co.za</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Track 404 page views in analytics
+        console.log('404 Page Viewed:', window.location.href);
+        
+        // Optional: Redirect to homepage after delay
+        // setTimeout(() => {
+        //     window.location.href = '/';
+        // }, 30000);
+    </script>
+</body>
+</html>

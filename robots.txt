@@ -1,0 +1,45 @@
+# Robots.txt for Metra Innovations
+# https://www.metra-innovations.co.za/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.metra-innovations.co.za/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Block admin access (if applicable in future)
+Disallow: /admin/
+Disallow: /dashboard/
+
+# Block common sensitive paths
+Disallow: /private/
+Disallow: /temp/
+Disallow: /backup/
+
+# Allow all search engines to crawl the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: facebot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /

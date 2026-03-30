@@ -1,0 +1,85 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local development files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.min.css
+*.min.js
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# Package manager locks (keep package-lock.json for npm)
+# yarn.lock
+# pnpm-lock.yaml
+
+# Testing
+coverage/
+.nyc_output/
+
+# Vercel
+.vercel/
+
+# Local server files
+*.local
+*.test
+
+# Sensitive files (if any)
+.htaccess
+config.php
+*.key
+*.pem
+*.crt
+
+# Admin data (optional - remove if you want to track admin data)
+# Note: localStorage data won't be tracked anyway as it's browser-based
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Image optimization cache
+.squoosh
+.imagemin
+
+# Setup scripts (optional)
+*.bat
+*.sh
