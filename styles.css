@@ -263,10 +263,10 @@ section {
 .section-badge {
     display: inline-block;
     padding: 0.5rem 1.5rem;
-    background: rgba(220, 20, 60, 0.1);
+    background: rgba(220, 20, 60, 0.15);
     border: 1px solid var(--red-light);
     border-radius: 50px;
-    color: var(--red-light);
+    color: #ff4d6d;
     font-size: 0.875rem;
     font-weight: 600;
     text-transform: uppercase;
@@ -1455,7 +1455,7 @@ section {
 }
 
 .footer-desc {
-    color: var(--gray-400);
+    color: var(--gray-300);
     line-height: 1.8;
     margin-bottom: 1.5rem;
 }
@@ -1474,7 +1474,7 @@ section {
 }
 
 .footer-links a {
-    color: var(--gray-400);
+    color: var(--gray-300);
     transition: var(--transition-base);
 }
 
@@ -1521,8 +1521,8 @@ section {
     justify-content: space-between;
     align-items: center;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--gray-500);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--gray-400);
     font-size: 0.9375rem;
 }
 
@@ -1532,7 +1532,7 @@ section {
 }
 
 .footer-legal a {
-    color: var(--gray-500);
+    color: var(--gray-400);
     transition: var(--transition-base);
 }
 
