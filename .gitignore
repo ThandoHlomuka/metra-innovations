@@ -80,6 +80,6 @@ config.php
 .squoosh
 .imagemin
 
-# Setup scripts (optional)
-*.bat
-*.sh
+# Setup scripts (keep deployment scripts)
+# *.bat
+# *.sh
