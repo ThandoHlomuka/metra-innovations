@@ -7,7 +7,7 @@
   "devCommand": null,
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/:path*",
       "headers": [
         {
           "key": "X-Content-Type-Options",
@@ -52,7 +52,7 @@
       ]
     },
     {
-      "source": "/.*\\.css$",
+      "source": "/:path*.css",
       "headers": [
         {
           "key": "Cache-Control",
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "source": "/.*\\.js$",
+      "source": "/:path*.js",
       "headers": [
         {
           "key": "Cache-Control",
@@ -78,7 +78,7 @@
       ]
     },
     {
-      "source": "/.*\\.(jpg|jpeg|png|gif|svg|webp|ico)$",
+      "source": "/:path*.(jpg|jpeg|png|gif|svg|webp|ico)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -87,7 +87,7 @@
       ]
     },
     {
-      "source": "/.*\\.(woff2|woff|ttf|eot)$",
+      "source": "/:path*.(woff2|woff|ttf|eot)",
       "headers": [
         {
           "key": "Cache-Control",
