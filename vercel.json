@@ -5,12 +5,6 @@
   "buildCommand": null,
   "outputDirectory": null,
   "devCommand": null,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -58,7 +52,7 @@
       ]
     },
     {
-      "source": "/(.*\\.css)",
+      "source": "/.*\\.css$",
       "headers": [
         {
           "key": "Cache-Control",
@@ -71,7 +65,7 @@
       ]
     },
     {
-      "source": "/(.*\\.js)",
+      "source": "/.*\\.js$",
       "headers": [
         {
           "key": "Cache-Control",
@@ -84,7 +78,7 @@
       ]
     },
     {
-      "source": "/(.*\\.(jpg|jpeg|png|gif|svg|webp|ico))",
+      "source": "/.*\\.(jpg|jpeg|png|gif|svg|webp|ico)$",
       "headers": [
         {
           "key": "Cache-Control",
@@ -93,7 +87,7 @@
       ]
     },
     {
-      "source": "/(.*\\.(woff2|woff|ttf|eot))",
+      "source": "/.*\\.(woff2|woff|ttf|eot)$",
       "headers": [
         {
           "key": "Cache-Control",
