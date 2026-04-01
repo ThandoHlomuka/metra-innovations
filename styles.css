@@ -2687,3 +2687,50 @@ section {
         grid-template-columns: 80px 1fr 40px;
     }
 }
+
+/* ==================== PERFORMANCE OPTIMIZATIONS ==================== */
+/* Content Visibility for below-the-fold sections - improves rendering performance */
+.about,
+.services,
+.portfolio,
+.process,
+.testimonials,
+.faq,
+.contact,
+.footer {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}
+
+/* Reduce paint area for large sections */
+.hero {
+    contain: layout style;
+}
+
+/* Optimize animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Will-change for animated elements */
+.stat-number,
+.hero-badge,
+.section-badge {
+    will-change: transform;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .stat-number,
+    .hero-badge,
+    .section-badge {
+        will-change: auto;
+    }
+}
