@@ -1,5 +1,6 @@
 # GitHub Actions Workflow for Vercel Deployment
 # This workflow triggers Vercel deployment on every push to main branch
+# Note: For automatic deployments, connect your repo at vercel.com/new
 
 name: Deploy to Vercel
 
@@ -11,6 +12,11 @@ on:
     branches:
       - main
 
+# Allow only one concurrent deployment per branch
+concurrency:
+  group: vercel-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     name: Deploy to Vercel
@@ -19,6 +25,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest

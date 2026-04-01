@@ -1,116 +1,161 @@
 # 🚀 Vercel Auto-Deployment Guide
 
-## Automated Deployment from GitHub to Vercel
+## ⚡ Quick Start (Recommended - 2 Minutes)
 
-This project is configured for **automatic deployment** to Vercel whenever you push to the `main` branch.
+**The easiest way to enable auto-deployment:**
 
----
+1. **Run the setup script** (Windows):
+   ```
+   Double-click: vercel-deploy-setup.bat
+   ```
+   Then select option 1.
 
-## ✅ Setup Complete - What's Configured
+2. **OR manually connect at Vercel:**
+   - Go to: https://vercel.com/new
+   - Click **"Import Git Repository"**
+   - Select **GitHub** → Authorize Vercel
+   - Choose: `ThandoHlomuka/metra-innovations`
+   - Click **"Deploy"**
 
-### 1. GitHub Actions Workflow
-- **File**: `.github/workflows/vercel-deploy.yml`
-- **Triggers**: Push to `main` branch
-- **Action**: Automatically deploys to Vercel Production
-
-### 2. Vercel Configuration
-- **File**: `vercel.json`
-- **Features**:
-  - Security headers (X-Frame-Options, X-XSS-Protection, etc.)
-  - Cache-Control headers for static assets
-  - Font caching with CORS
-  - GitHub integration enabled
-
-### 3. Performance Optimizations
-- Critical CSS inlined
-- Non-render-blocking resources
-- Image optimization attributes
-- Content visibility for below-fold sections
+**That's it!** Every push to `main` will automatically deploy to Vercel.
 
 ---
 
-## 🔧 Vercel Setup Steps (One-Time)
+## ✅ What's Already Configured
 
-### Step 1: Connect GitHub to Vercel
+| File | Purpose |
+|------|---------|
+| `vercel.json` | Vercel config with security headers, caching, CSP |
+| `.github/workflows/vercel-deploy.yml` | GitHub Actions workflow (optional) |
+| `vercel-deploy-setup.bat` | One-click setup script |
 
-1. Go to [vercel.com](https://vercel.com) and sign in
-2. Click **"Add New Project"**
-3. Select **"Import Git Repository"**
-4. Choose **GitHub** and authorize Vercel
-5. Select repository: `ThandoHlomuka/metra-innovations`
+---
+
+## 🔧 Two Deployment Options
+
+### Option 1: Vercel Native Integration ⭐ RECOMMENDED
+
+**Benefits:**
+- ✅ No configuration needed
+- ✅ Automatic deployments in 30-60 seconds
+- ✅ Preview deployments for pull requests
+- ✅ Managed by Vercel (more reliable)
+
+**Setup Steps:**
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Sign in (create account if needed)
+3. Click **"Import Git Repository"**
+4. Select **GitHub** and authorize Vercel access
+5. Find and select: `ThandoHlomuka/metra-innovations`
 6. Click **"Import"**
+7. Keep default settings:
+   - **Framework Preset:** Other
+   - **Build Command:** (leave empty)
+   - **Output Directory:** (leave empty)
+8. Click **"Deploy"**
 
-### Step 2: Configure Project
+### Option 2: GitHub Actions (Advanced)
 
-| Setting | Value |
-|---------|-------|
-| **Framework Preset** | Other |
-| **Build Command** | (leave empty) |
-| **Output Directory** | (leave empty) |
-| **Install Command** | (leave empty) |
+**Benefits:**
+- ✅ More control over deployment process
+- ✅ Can add custom steps
 
-### Step 3: Add Environment Variables (if needed)
+**Requirements:**
+- Vercel account with API token
+- GitHub secrets configured
 
-For GitHub Actions deployment, add these to GitHub Secrets:
+**Setup Steps:**
 
-1. Go to GitHub → Repository → Settings → Secrets and variables → Actions
-2. Add these secrets:
-   - `VERCEL_TOKEN` - Get from [Vercel Account → Settings → Tokens](https://vercel.com/account/tokens)
-   - `VERCEL_ORG_ID` - Found in Vercel project settings
-   - `VERCEL_PROJECT_ID` - Found in Vercel project settings
+1. **Get Vercel Token:**
+   - Go to [vercel.com/account/tokens](https://vercel.com/account/tokens)
+   - Click **"Create Token"**
+   - Copy the token
 
-### Step 4: Deploy
+2. **Add GitHub Secrets:**
+   - Go to GitHub → `ThandoHlomuka/metra-innovations` → Settings
+   - Navigate to: **Secrets and variables** → **Actions**
+   - Add these secrets:
 
-Click **"Deploy"** and Vercel will:
-- Build your project
-- Deploy to production
-- Enable auto-deployment on every push to `main`
+   | Secret Name | Value |
+   |-------------|-------|
+   | `VERCEL_TOKEN` | Your Vercel API token |
+   | `VERCEL_ORG_ID` | From Vercel project settings |
+   | `VERCEL_PROJECT_ID` | From Vercel project settings |
+
+3. **Trigger Deployment:**
+   - Push to `main` branch
+   - Or manually trigger from Actions tab
 
 ---
 
 ## 🔄 How Auto-Deployment Works
 
+### Vercel Native (Option 1):
 ```
 Push to GitHub main branch
         ↓
-GitHub Actions triggers
+GitHub sends webhook to Vercel
         ↓
-Runs vercel-deploy.yml workflow
+Vercel builds and deploys
+        ↓
+Live URL updated (~30 seconds)
+```
+
+### GitHub Actions (Option 2):
+```
+Push to GitHub main branch
+        ↓
+GitHub Actions workflow triggers
+        ↓
+Runs vercel-deploy.yml
         ↓
 Deploys to Vercel Production
         ↓
-Live URL updated (usually 30-60 seconds)
+Live URL updated (~60 seconds)
 ```
 
 ---
 
-## 📊 Deployment Status
+## 📊 Check Deployment Status
 
-### Check Deployment Status
-
-1. **GitHub Actions**: 
-   - Visit: `https://github.com/ThandoHlomuka/metra-innovations/actions`
-   - View workflow runs and deployment logs
-
-2. **Vercel Dashboard**:
-   - Visit: `https://vercel.com/dashboard`
-   - View deployment history and status
-
-3. **Preview URLs**:
-   - Production: `https://metra-innovations.co.za`
-   - Preview: `https://metra-innovations-git-main-*.vercel.app`
+| Where | URL |
+|-------|-----|
+| **Vercel Dashboard** | https://vercel.com/dashboard |
+| **Vercel Deployments** | https://vercel.com/[your-project]/deployments |
+| **GitHub Actions** | https://github.com/ThandoHlomuka/metra-innovations/actions |
 
 ---
 
-## 🛠 Manual Deployment (Optional)
+## 🧪 Test Auto-Deployment
 
-If you need to deploy manually:
+Make a small change to test:
+
+```bash
+# Make a small change
+echo "<!-- Test deployment -->" >> index.html
+
+# Commit and push
+git add index.html
+git commit -m "test: trigger auto-deployment"
+git push origin main
+```
+
+Then check:
+1. **Vercel Dashboard** - Should show "Building" or "Ready"
+2. **Your live site** - Should reflect changes in 30-60 seconds
+
+---
+
+## 🛠 Manual Deployment (Fallback)
+
+If auto-deployment fails:
 
 ```bash
 # Install Vercel CLI
 npm install -g vercel
 
-# Login to Vercel
+# Login
 vercel login
 
 # Deploy to production
@@ -119,14 +164,60 @@ vercel --prod
 
 ---
 
+## 🐛 Troubleshooting
+
+### Vercel Not Auto-Deploying
+
+1. **Check if connected:**
+   - Go to vercel.com/dashboard
+   - Is your project listed?
+   - If not, follow Option 1 setup above
+
+2. **Check webhook:**
+   - GitHub → Settings → Webhooks
+   - Should have a Vercel webhook
+   - If not, reconnect at vercel.com/new
+
+3. **Check branch:**
+   - Auto-deploy only works for `main` branch
+   - Push to main: `git push origin main`
+
+### GitHub Actions Failing
+
+1. **Check secrets:**
+   - Verify VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID
+   - Ensure no extra spaces in values
+
+2. **Check workflow:**
+   - GitHub → Actions tab
+   - Is workflow enabled?
+   - Check logs for specific errors
+
+3. **Reinstall Vercel CLI:**
+   ```bash
+   npm uninstall -g vercel
+   npm install -g vercel@latest
+   ```
+
+### Deployment Succeeds But Site Not Updating
+
+1. **Clear browser cache:** Ctrl+Shift+R (hard refresh)
+2. **Check Vercel cache:** Add cache-busting query to URL
+3. **Wait 1-2 minutes:** CDN propagation can take time
+
+---
+
 ## 📈 Post-Deployment Checklist
 
-- [ ] Verify site loads correctly at production URL
+After first deployment:
+
+- [ ] Site loads at production URL
 - [ ] Run [PageSpeed Insights](https://pagespeed.web.dev/)
 - [ ] Check sitemap.xml is accessible
 - [ ] Verify robots.txt is working
 - [ ] Test all navigation links
 - [ ] Check mobile responsiveness
+- [ ] Verify security headers (use securityheaders.com)
 
 ---
 
@@ -135,33 +226,20 @@ vercel --prod
 | Resource | URL |
 |----------|-----|
 | Vercel Dashboard | https://vercel.com/dashboard |
+| Vercel GitHub Integration | https://vercel.com/docs/git |
 | GitHub Actions | https://github.com/ThandoHlomuka/metra-innovations/actions |
 | PageSpeed Insights | https://pagespeed.web.dev/ |
-| Vercel Documentation | https://vercel.com/docs |
+| Vercel CLI Docs | https://vercel.com/docs/cli |
 
 ---
 
-## 🐛 Troubleshooting
+## 📞 Need Help?
 
-### Deployment Fails
-
-1. Check GitHub Actions logs for errors
-2. Verify Vercel token is valid
-3. Ensure `vercel.json` is valid JSON
-
-### Site Not Updating
-
-1. Clear browser cache (Ctrl+Shift+R)
-2. Check Vercel deployment status
-3. Verify push was to `main` branch
-
-### GitHub Actions Not Triggering
-
-1. Check workflow is enabled in GitHub Actions tab
-2. Verify branch name is `main`
-3. Check secrets are configured correctly
+1. **Vercel Documentation:** https://vercel.com/docs
+2. **GitHub Actions Docs:** https://docs.github.com/actions
+3. **Run Setup Script:** `vercel-deploy-setup.bat`
 
 ---
 
-**Last Updated**: 2026-04-01
-**Version**: 2.0 (Performance Optimized)
+**Last Updated:** 2026-04-01
+**Version:** 3.0 (Auto-Deploy Configured)
