@@ -22,23 +22,30 @@ function initNavbar() {
     let lastReflowTime = 0;
     const REFLOW_THROTTLE = 250; // ms
 
-    // Initialize section positions
+    // Initialize section positions - use requestAnimationFrame to avoid forced reflow
     const updateSectionPositions = () => {
-        const sections = document.querySelectorAll('section[id]');
-        sectionPositions = Array.from(sections).map(section => ({
-            id: section.getAttribute('id'),
-            top: section.offsetTop - 100,
-            height: section.offsetHeight,
-            navLink: document.querySelector(`.nav-link[href="#${section.getAttribute('id')}"]`)
-        }));
+        // Schedule position calculation for next frame (avoids layout thrashing)
+        window.requestAnimationFrame(() => {
+            const sections = document.querySelectorAll('section[id]');
+            sectionPositions = Array.from(sections).map(section => ({
+                id: section.getAttribute('id'),
+                top: section.offsetTop - 100,
+                height: section.offsetHeight,
+                navLink: document.querySelector(`.nav-link[href="#${section.getAttribute('id')}"]`)
+            }));
+        });
     };
 
     // Update positions on resize and load (not on scroll)
-    const debouncedUpdate = debounce(updateSectionPositions, 150);
-    window.addEventListener('resize', debouncedUpdate);
-    window.addEventListener('load', updateSectionPositions);
-    // Initial update
-    setTimeout(updateSectionPositions, 100);
+    // Use debounce to prevent multiple reflows during rapid resize
+    const debouncedUpdate = debounce(updateSectionPositions, 250);
+    window.addEventListener('resize', debouncedUpdate, { passive: true });
+    window.addEventListener('load', () => {
+        // Delay initial position calculation until after page paint
+        setTimeout(updateSectionPositions, 50);
+    });
+    // Initial update - delayed to avoid competing with initial page render
+    setTimeout(updateSectionPositions, 150);
 
     // Scroll effect - throttled
     let ticking = false;
