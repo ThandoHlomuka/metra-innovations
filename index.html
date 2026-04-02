@@ -96,11 +96,6 @@
         .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#DC143C,#c41e3a);color:#fff;padding:1rem 2rem;border-radius:8px;text-decoration:none;font-weight:600;z-index:100000;transition:.3s ease}
         .skip-link:focus{top:10px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
-        
-        /* Font Awesome icon font-face with font-display:swap for mobile */
-        @font-face{font-family:'Font Awesome 6 Brands';font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2) format('woff2')}
-        @font-face{font-family:'Font Awesome 6 Free';font-weight:900;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2) format('woff2')}
-        
         .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,41,24,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(220,20,60,.1);transition:.3s ease;contain:layout style}
         .navbar.scrolled{background:rgba(10,41,24,.98);box-shadow:0 4px 16px rgba(0,0,0,.3)}
         .nav-container{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:80px}
@@ -134,15 +129,26 @@
         @media(max-width:480px){.hero{padding:100px 0 60px}.hero-title{font-size:2rem}.hero-subtitle{font-size:.9375rem;line-height:1.7}}
     </style>
 
-    <!-- Fonts & Icons (Deferred for Mobile - Non-blocking) -->
+    <!-- Fonts (Deferred for Mobile - Non-blocking) -->
     <!-- Load Google Fonts asynchronously after page load -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=optional" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=optional" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500:600:700:800:900&display=optional"></noscript>
 
-    <!-- Font Awesome: Defer loading to reduce unused CSS (18KB savings) -->
-    <!-- Icons load after page is interactive, reducing critical CSS size -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
+    <!-- Font Awesome: Load after page is fully interactive (removes from critical path) -->
+    <!-- Using JavaScript to defer font loading until after LCP is measured -->
+    <script>
+        // Load Font Awesome after page load to avoid blocking LCP
+        window.addEventListener('load', function() {
+            var faLink = document.createElement('link');
+            faLink.rel = 'stylesheet';
+            faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            faLink.integrity = 'sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==';
+            faLink.crossOrigin = 'anonymous';
+            faLink.referrerPolicy = 'no-referrer';
+            document.head.appendChild(faLink);
+        });
+    </script>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
     <!-- Styles (Non-render-blocking) -->
