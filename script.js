@@ -16,19 +16,48 @@ function initNavbar() {
     const navbar = document.getElementById('navbar');
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.getElementById('navMenu');
-    
-    // Scroll effect
+
+    // Cache section positions to avoid forced reflow on scroll
+    let sectionPositions = [];
+    let lastReflowTime = 0;
+    const REFLOW_THROTTLE = 250; // ms
+
+    // Initialize section positions
+    const updateSectionPositions = () => {
+        const sections = document.querySelectorAll('section[id]');
+        sectionPositions = Array.from(sections).map(section => ({
+            id: section.getAttribute('id'),
+            top: section.offsetTop - 100,
+            height: section.offsetHeight,
+            navLink: document.querySelector(`.nav-link[href="#${section.getAttribute('id')}"]`)
+        }));
+    };
+
+    // Update positions on resize and load (not on scroll)
+    const debouncedUpdate = debounce(updateSectionPositions, 150);
+    window.addEventListener('resize', debouncedUpdate);
+    window.addEventListener('load', updateSectionPositions);
+    // Initial update
+    setTimeout(updateSectionPositions, 100);
+
+    // Scroll effect - throttled
+    let ticking = false;
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+        // Navbar visibility toggle
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                updateActiveNavLink();
+                ticking = false;
+            });
+            ticking = true;
         }
-        
-        // Update active nav link
-        updateActiveNavLink();
-    });
-    
+    }, { passive: true });
+
     // Mobile menu toggle
     mobileToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
@@ -36,7 +65,7 @@ function initNavbar() {
         icon.classList.toggle('fa-bars');
         icon.classList.toggle('fa-times');
     });
-    
+
     // Close mobile menu on link click
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
@@ -49,21 +78,29 @@ function initNavbar() {
 }
 
 function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
+    // Use cached positions instead of querying DOM (prevents forced reflow)
     const scrollY = window.pageYOffset;
-    
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-        
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            navLink?.classList.add('active');
+
+    sectionPositions.forEach(section => {
+        if (scrollY > section.top && scrollY <= section.top + section.height) {
+            section.navLink?.classList.add('active');
         } else {
-            navLink?.classList.remove('active');
+            section.navLink?.classList.remove('active');
         }
     });
+}
+
+// Debounce utility function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 // ==================== SMOOTH SCROLL ====================
@@ -72,18 +109,20 @@ function initSmoothScroll() {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
-            
+
             if (targetId === '#') return;
-            
+
             const target = document.querySelector(targetId);
             if (target) {
-                const offsetTop = target.offsetTop - 80;
+                // Use cached section positions if available, otherwise calculate once
+                const section = sectionPositions?.find(s => s.id === targetId.substring(1));
+                const offsetTop = section ? section.top + 100 : target.offsetTop - 80;
                 window.scrollTo({
                     top: offsetTop,
                     behavior: 'smooth'
                 });
             }
-        });
+        }, { passive: true });
     });
 }
 
