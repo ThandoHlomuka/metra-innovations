@@ -96,6 +96,11 @@
         .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#DC143C,#c41e3a);color:#fff;padding:1rem 2rem;border-radius:8px;text-decoration:none;font-weight:600;z-index:100000;transition:.3s ease}
         .skip-link:focus{top:10px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
         @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+        
+        /* Font Awesome icon font-face with font-display:swap for mobile */
+        @font-face{font-family:'Font Awesome 6 Brands';font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2) format('woff2')}
+        @font-face{font-family:'Font Awesome 6 Free';font-weight:900;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2) format('woff2')}
+        
         .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,41,24,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(220,20,60,.1);transition:.3s ease;contain:layout style}
         .navbar.scrolled{background:rgba(10,41,24,.98);box-shadow:0 4px 16px rgba(0,0,0,.3)}
         .nav-container{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:80px}
