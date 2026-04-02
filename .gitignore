@@ -83,3 +83,6 @@ config.php
 # Setup scripts (keep deployment scripts)
 # *.bat
 # *.sh
+
+.vercel
+.env*.local

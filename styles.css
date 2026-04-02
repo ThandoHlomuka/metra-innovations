@@ -1335,6 +1335,7 @@ section {
 .contact-item {
     display: flex;
     gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .contact-item i {
@@ -1350,16 +1351,21 @@ section {
     flex-shrink: 0;
 }
 
-.contact-item h4 {
+.contact-text {
+    flex: 1;
+}
+
+.contact-text h4 {
     font-size: 1rem;
     font-weight: 700;
     color: var(--cream);
     margin-bottom: 0.25rem;
 }
 
-.contact-item p {
+.contact-text p {
     color: var(--gray-400);
     line-height: 1.6;
+    margin: 0.25rem 0;
 }
 
 .social-links {
