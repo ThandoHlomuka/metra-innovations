@@ -625,6 +625,12 @@ function loadAdminData() {
     if (savedSubscribers) newsletterSubscribers = JSON.parse(savedSubscribers);
     if (savedAnalytics) analyticsData = JSON.parse(savedAnalytics);
 
+    console.log('📊 Admin Data Loaded:', {
+        queries: contactQueries.length,
+        subscribers: newsletterSubscribers.length,
+        visits: analyticsData.visits
+    });
+
     updateAdminDashboard();
 }
 
@@ -633,6 +639,12 @@ function saveAdminData() {
     localStorage.setItem('metraQueries', JSON.stringify(contactQueries));
     localStorage.setItem('metraSubscribers', JSON.stringify(newsletterSubscribers));
     localStorage.setItem('metraAnalytics', JSON.stringify(analyticsData));
+    
+    console.log('💾 Admin Data Saved:', {
+        queries: contactQueries.length,
+        subscribers: newsletterSubscribers.length
+    });
+    
     updateAdminDashboard();
 }
 
@@ -834,8 +846,16 @@ function openDashboard() {
     const dashboard = document.getElementById('adminDashboard');
     if (dashboard) {
         dashboard.classList.add('active');
+        // Force reload data from localStorage to get latest submissions
         loadAdminData();
+        console.log('🔄 Dashboard opened, data refreshed from localStorage');
     }
+}
+
+function refreshAdminData() {
+    console.log('🔄 Manually refreshing admin data...');
+    loadAdminData();
+    showNotification('Dashboard refreshed!', 'success');
 }
 
 function closeDashboard() {
