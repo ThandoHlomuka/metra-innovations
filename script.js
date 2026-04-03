@@ -886,9 +886,15 @@ function switchTab(tabName) {
         dashboard: 'Dashboard Overview',
         queries: 'Contact Queries',
         newsletter: 'Newsletter Subscribers',
-        analytics: 'Analytics & Reports'
+        analytics: 'Analytics & Reports',
+        recovery: 'Data Recovery & Export'
     };
     document.getElementById('adminPageTitle').textContent = titles[tabName];
+
+    // Load recovery data when switching to recovery tab
+    if (tabName === 'recovery') {
+        updateRecoveryTab();
+    }
 }
 
 // Initialize admin nav
@@ -1089,6 +1095,142 @@ window.handleNewsletterSubmit = function(event) {
         submitBtn.innerHTML = originalHTML;
     }, 1500);
 };
+
+// ==================== DATA RECOVERY & EXPORT ====================
+function refreshRecoveryData() {
+    console.log('🔄 Refreshing recovery data...');
+    loadAdminData();
+    updateRecoveryTab();
+    showNotification('Recovery data refreshed!', 'success');
+}
+
+function updateRecoveryTab() {
+    // Update recovery stats
+    document.getElementById('recoveryQueryCount').textContent = contactQueries.length;
+    document.getElementById('recoverySubscriberCount').textContent = newsletterSubscribers.length;
+    document.getElementById('recoveryVisitCount').textContent = analyticsData.visits || 0;
+
+    // Update queries table
+    const queriesList = document.getElementById('recoveryQueriesList');
+    if (contactQueries.length > 0) {
+        queriesList.innerHTML = `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Service</th>
+                        <th>Budget</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${contactQueries.map(q => `
+                        <tr>
+                            <td>${escapeHtml(q.name)}</td>
+                            <td>${escapeHtml(q.email)}</td>
+                            <td>${escapeHtml(q.phone || 'N/A')}</td>
+                            <td>${escapeHtml(q.service)}</td>
+                            <td>${q.budget || 'Not specified'}</td>
+                            <td>${formatDate(q.date)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    } else {
+        queriesList.innerHTML = '<p class="empty-state">No queries found in localStorage</p>';
+    }
+
+    // Update subscribers table
+    const subscribersList = document.getElementById('recoverySubscribersList');
+    if (newsletterSubscribers.length > 0) {
+        subscribersList.innerHTML = `
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${newsletterSubscribers.map(s => `
+                        <tr>
+                            <td>${escapeHtml(s.email)}</td>
+                            <td>${formatDate(s.date)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    } else {
+        subscribersList.innerHTML = '<p class="empty-state">No subscribers found in localStorage</p>';
+    }
+
+    // Update raw JSON data
+    const rawData = document.getElementById('recoveryRawData');
+    rawData.innerHTML = `<pre class="json-pre">${JSON.stringify({
+        queries: contactQueries,
+        subscribers: newsletterSubscribers,
+        analytics: analyticsData
+    }, null, 2)}</pre>`;
+}
+
+function exportQueries() {
+    if (contactQueries.length === 0) {
+        showNotification('No queries to export', 'error');
+        return;
+    }
+    const dataStr = JSON.stringify(contactQueries, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `metra-queries-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    showNotification('Queries exported successfully!', 'success');
+}
+
+function exportSubscribers() {
+    if (newsletterSubscribers.length === 0) {
+        showNotification('No subscribers to export', 'error');
+        return;
+    }
+    const dataStr = JSON.stringify(newsletterSubscribers, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `metra-subscribers-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    showNotification('Subscribers exported successfully!', 'success');
+}
+
+function exportAsCSV() {
+    if (contactQueries.length === 0 && newsletterSubscribers.length === 0) {
+        showNotification('No data to export', 'error');
+        return;
+    }
+
+    if (contactQueries.length > 0) {
+        const headers = ['Name', 'Email', 'Phone', 'Service', 'Budget', 'Message', 'Date'];
+        const csvContent = [
+            headers.join(','),
+            ...contactQueries.map(q => 
+                [q.name, q.email, q.phone || '', q.service, q.budget || '', `"${(q.message || '').replace(/"/g, '""')}"`, q.date].join(',')
+            )
+        ].join('\n');
+
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `metra-queries-${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        showNotification('Queries exported as CSV!', 'success');
+    }
+}
 
 // Initialize admin on page load
 document.addEventListener('DOMContentLoaded', () => {
