@@ -1246,7 +1246,7 @@
                     </div>
                     
                     <div class="pagespeed-cards">
-                        <div class="ps-card">
+                        <div class="ps-card" onclick="openLightbox('pagespeed-desktop.png')">
                             <div class="ps-badge ps-desktop">
                                 <i class="fas fa-desktop"></i>
                                 <span>Desktop</span>
@@ -1254,12 +1254,14 @@
                             <div class="ps-image">
                                 <img src="pagespeed-desktop.png" alt="Google PageSpeed Insights Desktop Score - Perfect Performance" loading="lazy">
                                 <div class="ps-overlay">
-                                    <div class="ps-score">99</div>
-                                    <div class="ps-label">Performance</div>
+                                    <div class="ps-view-full">
+                                        <i class="fas fa-search-plus"></i>
+                                        <span>View Full</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ps-card">
+                        <div class="ps-card" onclick="openLightbox('pagespeed-mobile.png')">
                             <div class="ps-badge ps-mobile">
                                 <i class="fas fa-mobile-alt"></i>
                                 <span>Mobile</span>
@@ -1267,8 +1269,10 @@
                             <div class="ps-image">
                                 <img src="pagespeed-mobile.png" alt="Google PageSpeed Insights Mobile Score - Excellent Performance" loading="lazy">
                                 <div class="ps-overlay">
-                                    <div class="ps-score">98</div>
-                                    <div class="ps-label">Performance</div>
+                                    <div class="ps-view-full">
+                                        <i class="fas fa-search-plus"></i>
+                                        <span>View Full</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2034,6 +2038,17 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal for PageSpeed Screenshots -->
+    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="lightboxImage" src="" alt="PageSpeed Insights Screenshot - Full View">
+            <div class="lightbox-zoom-hint">Click anywhere outside the image or press ESC to close</div>
         </div>
     </div>
 

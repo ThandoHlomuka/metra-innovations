@@ -1239,6 +1239,35 @@ document.addEventListener('DOMContentLoaded', () => {
     loadAdminData();
 });
 
+// ==================== LIGHTBOX FUNCTIONALITY ====================
+function openLightbox(imageSrc) {
+    const modal = document.getElementById('lightboxModal');
+    const image = document.getElementById('lightboxImage');
+    
+    if (modal && image) {
+        image.src = imageSrc;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeLightbox(event) {
+    if (event && event.target !== event.currentTarget) return;
+    
+    const modal = document.getElementById('lightboxModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Close lightbox with ESC key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    }
+});
+
 // ==================== CUSTOM SERVICE FIELD ====================
 function toggleCustomServiceField() {
     const serviceSelect = document.getElementById('service');
