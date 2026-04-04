@@ -1870,9 +1870,14 @@
                     <div class="admin-card">
                         <div class="card-header">
                             <h3>All Contact Queries</h3>
-                            <button class="btn btn-sm" onclick="exportQueries()">
-                                <i class="fas fa-download"></i> Export
-                            </button>
+                            <div class="card-actions">
+                                <button class="btn btn-sm" onclick="exportQueries()">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                                <button class="btn btn-sm danger" onclick="deleteAllQueries()">
+                                    <i class="fas fa-trash-alt"></i> Delete All
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="queries-list" id="queriesList">
@@ -1887,9 +1892,14 @@
                     <div class="admin-card">
                         <div class="card-header">
                             <h3>Newsletter Subscribers</h3>
-                            <button class="btn btn-sm" onclick="exportSubscribers()">
-                                <i class="fas fa-download"></i> Export
-                            </button>
+                            <div class="card-actions">
+                                <button class="btn btn-sm" onclick="exportSubscribers()">
+                                    <i class="fas fa-download"></i> Export
+                                </button>
+                                <button class="btn btn-sm danger" onclick="deleteAllSubscribers()">
+                                    <i class="fas fa-trash-alt"></i> Delete All
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="subscribers-list" id="subscribersList">

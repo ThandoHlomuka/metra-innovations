@@ -650,6 +650,12 @@ function saveAdminData() {
 
 // Track page visit
 function trackPageVisit() {
+    // Load existing data first to avoid overwriting
+    const savedAnalytics = localStorage.getItem('metraAnalytics');
+    if (savedAnalytics) {
+        analyticsData = JSON.parse(savedAnalytics);
+    }
+    
     analyticsData.visits++;
     analyticsData.users = Math.floor(analyticsData.visits * 0.7);
 
@@ -657,7 +663,7 @@ function trackPageVisit() {
     const hash = window.location.hash || '#home';
     const pageMap = { '#home': 'home', '#services': 'services', '#portfolio': 'portfolio', '#contact': 'contact' };
     const page = pageMap[hash] || 'home';
-    analyticsData.pageViews[page]++;
+    analyticsData.pageViews[page] = (analyticsData.pageViews[page] || 0) + 1;
 
     // Track device
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -668,7 +674,7 @@ function trackPageVisit() {
 
     // Update daily views (simulate)
     const todayIndex = new Date().getDay();
-    analyticsData.dailyViews[todayIndex]++;
+    analyticsData.dailyViews[todayIndex] = (analyticsData.dailyViews[todayIndex] || 0) + 1;
 
     saveAdminData();
 }
@@ -988,11 +994,35 @@ function deleteQuery(index) {
     }
 }
 
+function deleteAllQueries() {
+    if (contactQueries.length === 0) {
+        showNotification('No queries to delete', 'error');
+        return;
+    }
+    if (confirm(`Are you sure you want to delete ALL ${contactQueries.length} queries? This action cannot be undone!`)) {
+        contactQueries = [];
+        saveAdminData();
+        showNotification('All queries deleted successfully', 'success');
+    }
+}
+
 function deleteSubscriber(index) {
     if (confirm('Are you sure you want to remove this subscriber?')) {
         newsletterSubscribers.splice(index, 1);
         saveAdminData();
         showNotification('Subscriber removed successfully', 'success');
+    }
+}
+
+function deleteAllSubscribers() {
+    if (newsletterSubscribers.length === 0) {
+        showNotification('No subscribers to delete', 'error');
+        return;
+    }
+    if (confirm(`Are you sure you want to delete ALL ${newsletterSubscribers.length} subscribers? This action cannot be undone!`)) {
+        newsletterSubscribers = [];
+        saveAdminData();
+        showNotification('All subscribers deleted successfully', 'success');
     }
 }
 
@@ -1305,9 +1335,13 @@ function exportAsCSV() {
 
 // Initialize admin on page load
 document.addEventListener('DOMContentLoaded', () => {
-    trackPageVisit();
-    initAdminNav();
+    // IMPORTANT: Load data FIRST before saving anything
     loadAdminData();
+    
+    // Then track this visit
+    trackPageVisit();
+    
+    initAdminNav();
 });
 
 // ==================== LIGHTBOX FUNCTIONALITY ====================

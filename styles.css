@@ -3040,6 +3040,21 @@ section {
     transform: scale(1.05);
 }
 
+.btn-sm.danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+.btn-sm.danger:hover {
+    background: linear-gradient(135deg, #c82333, #bd2130);
+    transform: scale(1.05);
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
 /* Queries List */
 .queries-list,
 .subscribers-list {
