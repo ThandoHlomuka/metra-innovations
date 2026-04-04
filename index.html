@@ -1689,6 +1689,33 @@
     <!-- Scripts -->
     <script src="script.js" defer></script>
 
+    <!-- Admin Passcode Modal -->
+    <div class="modal admin-modal" id="adminPasscodeModal">
+        <div class="modal-overlay" onclick="closeAdminPasscode()"></div>
+        <div class="modal-content admin-login-content">
+            <button class="modal-close" onclick="closeAdminPasscode()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="admin-login-body">
+                <div class="admin-login-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>Enter Passcode</h2>
+                <p class="admin-login-subtitle">Enter the 4-digit passcode to access admin login</p>
+                <form class="admin-login-form" onsubmit="handlePasscodeSubmit(event)">
+                    <div class="form-group">
+                        <label for="adminPasscode">Passcode</label>
+                        <input type="password" id="adminPasscode" required placeholder="Enter 4-digit passcode" maxlength="4" pattern="[0-9]{4}" inputmode="numeric" autocomplete="off">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-arrow-right"></i> Verify
+                    </button>
+                </form>
+                <p id="passcodeError" class="passcode-error" style="display: none;"></p>
+            </div>
+        </div>
+    </div>
+
     <!-- Admin Login Modal -->
     <div class="modal admin-modal" id="adminLoginModal">
         <div class="modal-overlay" onclick="closeAdminLogin()"></div>

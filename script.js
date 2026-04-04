@@ -804,11 +804,82 @@ function updatePageViewsChart() {
 }
 
 // Admin login functions
+let isPasscodeVerified = false;
+const ADMIN_PASSCODE = '1289';
+
 function openAdminLogin() {
+    // Open passcode modal first
+    const passcodeModal = document.getElementById('adminPasscodeModal');
+    if (passcodeModal) {
+        passcodeModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Focus on passcode input
+        setTimeout(() => {
+            const passcodeInput = document.getElementById('adminPasscode');
+            if (passcodeInput) passcodeInput.focus();
+        }, 300);
+    }
+}
+
+function closeAdminPasscode() {
+    const modal = document.getElementById('adminPasscodeModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        // Clear error
+        const errorEl = document.getElementById('passcodeError');
+        if (errorEl) errorEl.style.display = 'none';
+        // Clear input
+        const passcodeInput = document.getElementById('adminPasscode');
+        if (passcodeInput) passcodeInput.value = '';
+    }
+}
+
+function handlePasscodeSubmit(event) {
+    event.preventDefault();
+    const passcode = document.getElementById('adminPasscode').value;
+    const errorEl = document.getElementById('passcodeError');
+
+    if (passcode === ADMIN_PASSCODE) {
+        // Passcode correct - close passcode modal, open login modal
+        isPasscodeVerified = true;
+        closeAdminPasscode();
+        
+        // Small delay for smooth transition
+        setTimeout(() => {
+            openAdminLoginAfterPasscode();
+        }, 300);
+    } else {
+        // Passcode incorrect - show error
+        if (errorEl) {
+            errorEl.textContent = '❌ Incorrect passcode. Access denied.';
+            errorEl.style.display = 'block';
+            errorEl.style.color = '#ff4d6d';
+            errorEl.style.fontSize = '0.875rem';
+            errorEl.style.marginTop = '1rem';
+        }
+        
+        // Shake animation
+        const form = event.target;
+        form.style.animation = 'shake 0.5s ease';
+        setTimeout(() => {
+            form.style.animation = '';
+        }, 500);
+        
+        showNotification('Incorrect passcode. Access denied.', 'error');
+    }
+}
+
+function openAdminLoginAfterPasscode() {
     const modal = document.getElementById('adminLoginModal');
     if (modal) {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        // Focus on email input
+        setTimeout(() => {
+            const emailInput = document.getElementById('adminEmail');
+            if (emailInput) emailInput.focus();
+        }, 300);
     }
 }
 
