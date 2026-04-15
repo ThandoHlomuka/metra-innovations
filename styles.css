@@ -2383,6 +2383,7 @@ section {
     
     .mobile-toggle {
         display: flex;
+        margin-left: auto;
     }
 
     .mobile-only-cta {
