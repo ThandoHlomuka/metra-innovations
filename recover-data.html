@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metra Innovations - Data Recovery Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a2918;
+            color: #d0d0d0;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #F5E6D3;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        .subtitle {
+            color: #9e9e9e;
+            margin-bottom: 2rem;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(220, 20, 60, 0.1);
+            border: 1px solid #DC143C;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .stat-card h3 {
+            color: #ff4d6d;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: #757575;
+            font-size: 0.875rem;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #F5E6D3;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .data-table th {
+            background: rgba(220, 20, 60, 0.2);
+            color: #DC143C;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #DC143C;
+        }
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .data-table tr:hover {
+            background: rgba(220, 20, 60, 0.05);
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #DC143C, #c41e3a);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(220, 20, 60, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #DC143C;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #757575;
+        }
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .actions {
+            margin-bottom: 2rem;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: #DC143C;
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .json-output {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Metra Innovations - Data Recovery Tool</h1>
+        <p class="subtitle">View and export your admin dashboard data from localStorage</p>
+
+        <div class="actions">
+            <button class="btn" onclick="refreshData()">
+                🔄 Refresh Data
+            </button>
+            <button class="btn btn-secondary" onclick="exportQueries()">
+                📥 Export Queries (JSON)
+            </button>
+            <button class="btn btn-secondary" onclick="exportSubscribers()">
+                📥 Export Subscribers (JSON)
+            </button>
+            <button class="btn btn-secondary" onclick="exportAsCSV()">
+                📊 Export as CSV
+            </button>
+        </div>
+
+        <div class="stats" id="statsSection">
+            <div class="stat-card">
+                <h3 id="queryCount">0</h3>
+                <p>Contact Queries</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="subscriberCount">0</h3>
+                <p>Newsletter Subscribers</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="visitCount">0</h3>
+                <p>Total Visits</p>
+            </div>
+        </div>
+
+        <div class="section" id="queriesSection">
+            <h2>📧 Contact Queries</h2>
+            <div id="queriesContent"></div>
+        </div>
+
+        <div class="section" id="subscribersSection">
+            <h2>📰 Newsletter Subscribers</h2>
+            <div id="subscribersContent"></div>
+        </div>
+
+        <div class="section" id="rawDataSection">
+            <h2>📦 Raw Data (JSON)</h2>
+            <div id="rawDataContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let contactQueries = [];
+        let newsletterSubscribers = [];
+        let analyticsData = {};
+
+        function loadLocalData() {
+            const savedQueries = localStorage.getItem('metraQueries');
+            const savedSubscribers = localStorage.getItem('metraSubscribers');
+            const savedAnalytics = localStorage.getItem('metraAnalytics');
+
+            if (savedQueries) {
+                contactQueries = JSON.parse(savedQueries);
+            }
+
+            if (savedSubscribers) {
+                newsletterSubscribers = JSON.parse(savedSubscribers);
+            }
+
+            if (savedAnalytics) {
+                analyticsData = JSON.parse(savedAnalytics);
+            }
+
+            console.log('📊 Data Loaded:', {
+                queries: contactQueries.length,
+                subscribers: newsletterSubscribers.length,
+                visits: analyticsData.visits || 0
+            });
+        }
+
+        function updateUI() {
+            // Update stats
+            document.getElementById('queryCount').textContent = contactQueries.length;
+            document.getElementById('subscriberCount').textContent = newsletterSubscribers.length;
+            document.getElementById('visitCount').textContent = analyticsData.visits || 0;
+
+            // Update queries
+            const queriesContent = document.getElementById('queriesContent');
+            if (contactQueries.length > 0) {
+                queriesContent.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Service</th>
+                                <th>Budget</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${contactQueries.map(q => `
+                                <tr>
+                                    <td>${escapeHtml(q.name)}</td>
+                                    <td>${escapeHtml(q.email)}</td>
+                                    <td>${escapeHtml(q.phone || 'N/A')}</td>
+                                    <td>${escapeHtml(q.service)}</td>
+                                    <td>${q.budget || 'Not specified'}</td>
+                                    <td>${formatDate(q.date)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                queriesContent.innerHTML = '<div class="empty-state"><p>No contact queries found</p></div>';
+            }
+
+            // Update subscribers
+            const subscribersContent = document.getElementById('subscribersContent');
+            if (newsletterSubscribers.length > 0) {
+                subscribersContent.innerHTML = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${newsletterSubscribers.map(s => `
+                                <tr>
+                                    <td>${escapeHtml(s.email)}</td>
+                                    <td>${formatDate(s.date)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else {
+                subscribersContent.innerHTML = '<div class="empty-state"><p>No subscribers found</p></div>';
+            }
+
+            // Update raw data
+            document.getElementById('rawDataContent').innerHTML = `
+                <div class="json-output">${JSON.stringify({
+                    queries: contactQueries,
+                    subscribers: newsletterSubscribers,
+                    analytics: analyticsData
+                }, null, 2)}</div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-ZA', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function refreshData() {
+            loadLocalData();
+            updateUI();
+            showNotification('Data refreshed successfully!');
+        }
+
+        function exportQueries() {
+            if (contactQueries.length === 0) {
+                showNotification('No queries to export');
+                return;
+            }
+            const dataStr = JSON.stringify(contactQueries, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `metra-queries-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showNotification('Queries exported successfully!');
+        }
+
+        function exportSubscribers() {
+            if (newsletterSubscribers.length === 0) {
+                showNotification('No subscribers to export');
+                return;
+            }
+            const dataStr = JSON.stringify(newsletterSubscribers, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `metra-subscribers-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            showNotification('Subscribers exported successfully!');
+        }
+
+        function exportAsCSV() {
+            if (contactQueries.length === 0 && newsletterSubscribers.length === 0) {
+                showNotification('No data to export');
+                return;
+            }
+
+            // Export queries as CSV
+            if (contactQueries.length > 0) {
+                const headers = ['Name', 'Email', 'Phone', 'Service', 'Budget', 'Message', 'Date'];
+                const csvContent = [
+                    headers.join(','),
+                    ...contactQueries.map(q => 
+                        [q.name, q.email, q.phone || '', q.service, q.budget || '', `"${(q.message || '').replace(/"/g, '""')}"`, q.date].join(',')
+                    )
+                ].join('\n');
+
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `metra-queries-${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+            }
+
+            showNotification('Data exported as CSV!');
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLocalData();
+            updateUI();
+        });
+    </script>
+</body>
+</html>
