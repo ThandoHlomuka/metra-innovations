@@ -3605,7 +3605,7 @@ section {
     pointer-events: auto;
 }
 
-/* Scene 0 — code rain + logo */
+/* Scene 0 — matrix binary rain */
 .intro-opening {
     text-align: center;
     position: relative;
@@ -3621,65 +3621,103 @@ section {
     inset: 0;
     overflow: hidden;
     pointer-events: none;
+    background: radial-gradient(ellipse at 50% 40%, rgba(0,255,102,0.06) 0%, transparent 70%);
 }
 
-.code-line {
+/* Matrix-style binary rain: vertical columns of flowing 0/1 characters */
+.binary-col {
     position: absolute;
     top: -2rem;
     font-family: 'Courier New', monospace;
-    color: rgba(220, 20, 60, 0.45);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
+    line-height: 1.15;
+    color: #00ff66;
     white-space: nowrap;
-    animation-name: code-rain;
+    opacity: 0.55;
+    transform: translateY(0);
+    animation-name: binary-rain;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     will-change: transform, opacity;
+    -webkit-text-stroke: 0.5px rgba(0,255,102,0.9);
+}
+.binary-col::after {
+    content: '';
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, #00ff66, transparent);
+    opacity: 0.8;
+    filter: blur(0.5px);
+}
+.binary-col[style*="--bright:1"] {
+    color: #d9ffe9;
+    opacity: 1;
+    text-shadow: 0 0 8px rgba(0,255,102,0.9);
 }
 
-@keyframes code-rain {
-    0% {
-        transform: translateY(-2rem);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(110vh);
-        opacity: 0;
-    }
+@keyframes binary-rain {
+    0%   { transform: translateY(-2rem); opacity: 0; }
+    8%   { opacity: 0.7; }
+    85%  { opacity: 0.7; }
+    100% { transform: translateY(108vh); opacity: 0; }
 }
 
-.intro-logo-lockup {
-    display: flex;
+.intro-rain-hint {
+    position: absolute;
+    bottom: 14%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(0,255,102,0.75);
+    font-weight: 600;
+    animation: hint-blink 1.6s ease-in-out infinite;
+}
+@keyframes hint-blink {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Scene 1 — black hole of code (copy sits above the 3D hole) */
+.intro-hole-copy {
+    position: relative;
+    z-index: 4;
+    margin-top: -22vh;
+}
+
+/* Scene 2 — big Metra Innovations pop */
+.intro-name {
     flex-direction: column;
-    align-items: center;
-    gap: 1.25rem;
-    opacity: 0;
+    gap: 2.25rem;
 }
-
-.intro-logo-icon svg {
-    width: 110px;
-    height: 110px;
-    filter: drop-shadow(0 10px 40px rgba(220, 20, 60, 0.35));
+.intro-logo-big svg {
+    width: 140px;
+    height: 140px;
+    filter: drop-shadow(0 12px 60px rgba(220, 20, 60, 0.5));
 }
-
-.intro-logo-wordmark {
-    font-size: clamp(2.5rem, 6vw, 4rem);
+.intro-wordmark {
+    font-size: clamp(2.6rem, 8vw, 6rem);
     font-weight: 900;
-    letter-spacing: 0.4em;
+    letter-spacing: 0.02em;
     color: #F5E6D3;
-    text-indent: 0.4em;
+    text-shadow: 0 8px 40px rgba(0, 255, 102, 0.25), 0 6px 30px rgba(0, 0, 0, 0.4);
+}
+@media (max-width: 480px) {
+    .intro-logo-big svg { width: 96px; height: 96px; }
+    .intro-wordmark { font-size: clamp(2rem, 9vw, 3rem); }
+}
+
+/* Scene 3 — tagline */
+.intro-tagline .intro-headline {
+    font-size: clamp(2.3rem, 6.5vw, 4.6rem);
 }
 
 /* Scene text blocks */
 .intro-text-block {
     text-align: center;
     max-width: 820px;
-    opacity: 0;
 }
 
 .intro-label {
@@ -3828,9 +3866,8 @@ section {
     cursor: default;
 }
 
-/* reveal animation initial states (before GSAP scrubs in) */
-#intro-scene-0 { opacity: 0; }
-.intro-logo-lockup { opacity: 0; }
+/* reveal animation initial states (before GSAP animates in) */
+.intro-logo-big { opacity: 0; }
 
 /* Reduced motion: hide intro cleanly */
 @media (prefers-reduced-motion: reduce) {
@@ -3847,9 +3884,8 @@ section {
     .intro-stats-row {
         gap: 1.75rem;
     }
-    .intro-logo-icon svg {
-        width: 80px;
-        height: 80px;
+    .intro-hole-copy {
+        margin-top: -18vh;
     }
 }
 

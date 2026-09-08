@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Metra Innovations — Welcome</title>
-    <meta name="description" content="Welcome to Metra Innovations — South African software engineers, web developers, WordPress and ecommerce specialists. Take a quick tour.">
+    <title>Metra Innovations â€” Welcome</title>
+    <meta name="description" content="Welcome to Metra Innovations â€” South African software engineers, web developers, WordPress and ecommerce specialists. Take a quick tour.">
     <meta name="theme-color" content="#0a2918">
     <meta name="color-scheme" content="light dark">
 
@@ -50,15 +50,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=3" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="styles.css?v=3"></noscript>
+    <link rel="stylesheet" href="styles.css?v=4" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css?v=4"></noscript>
 
     <!-- Three.js + GSAP (deferred, for 3D onboarding) -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-    <script defer src="intro-3d.js?v=3"></script>
+    <script defer src="intro-3d.js?v=4"></script>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
@@ -67,65 +67,61 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- End Google Tag Manager (noscript) -->
 
     <!-- ================================================================
-         3D ONBOARDING — full-screen immersive welcome experience
-         Scroll-driven scenes with Three.js particles + GSAP ScrollTrigger.
-         Ends with "Explore Metra" which enters the main site.
+         3D ONBOARDING â€” full-screen auto-playing welcome experience
+         Matrix binary rain â†’ black hole of code â†’ Metra Innovations
+         â†’ tagline â†’ CTA. Times itself; no scrolling required.
          ================================================================ -->
     <section id="intro-3d" aria-label="Metra Innovations welcome tour">
         <a href="index.html" class="intro-skip" id="introSkipBtn">Skip intro<i class="fas fa-arrow-right" aria-hidden="true"></i></a>
 
         <canvas id="intro-canvas"></canvas>
         <div id="intro-content">
-            <!-- Scene 0: Opening — code rain converges into the Metra logo -->
-            <div class="intro-scene" id="intro-scene-0">
+            <!-- Scene 0: Matrix binary rain fills the screen -->
+            <div class="intro-scene" id="intro-scene-0" style="opacity:0">
                 <div class="intro-opening">
                     <div class="intro-code-lines" id="codeLines" aria-hidden="true"></div>
-                    <div class="intro-logo-lockup">
-                        <div class="intro-logo-icon">
-                            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4" y="4" width="72" height="72" rx="16" stroke="#DC143C" stroke-width="3"/>
-                                <path d="M28 54L20 40L28 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M52 54L60 40L52 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="46" y1="24" x2="34" y2="56" stroke="#F5E6D3" stroke-width="2.5" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="intro-logo-wordmark">METRA</span>
+                    <span class="intro-rain-hint">Entering the matrixâ€¦</span>
+                </div>
+            </div>
+
+            <!-- Scene 1: The binary converges into a black hole of code -->
+            <div class="intro-scene" id="intro-scene-1" style="opacity:0">
+                <div class="intro-text-block intro-hole-copy">
+                    <span class="intro-label">A Singularity of Code</span>
+                    <h1 class="intro-headline">Every pixel<br><span class="text-crimson">Written by Hand</span></h1>
+                    <p class="intro-subline">All possibility collapses into a single point â€” where great software is born.</p>
+                </div>
+            </div>
+
+            <!-- Scene 2: "Metra Innovations" pops out -->
+            <div class="intro-scene" id="intro-scene-2" style="opacity:0">
+                <div class="intro-opening intro-name">
+                    <div class="intro-logo-big">
+                        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect x="4" y="4" width="72" height="72" rx="16" stroke="#DC143C" stroke-width="3"/>
+                            <path d="M28 54L20 40L28 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M52 54L60 40L52 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <line x1="46" y1="24" x2="34" y2="56" stroke="#F5E6D3" stroke-width="2.5" stroke-linecap="round"/>
+                        </svg>
                     </div>
+                    <span class="intro-wordmark">Metra Innovations</span>
                 </div>
             </div>
 
-            <!-- Scene 1: "We Build Digital Experiences" -->
-            <div class="intro-scene" id="intro-scene-1">
-                <div class="intro-text-block">
-                    <span class="intro-label">Software Development Company</span>
-                    <h1 class="intro-headline">We Build<br><span class="text-crimson">Digital Experiences</span></h1>
-                    <p class="intro-subline">Crafting world-class software, web platforms, and intelligent solutions for South African businesses since 2016.</p>
-                </div>
-            </div>
-
-            <!-- Scene 2: "Code. Create. Innovate." -->
-            <div class="intro-scene" id="intro-scene-2">
-                <div class="intro-text-block">
-                    <span class="intro-label">Sandton, Johannesburg</span>
-                    <h1 class="intro-headline">Code.<br><span class="text-crimson">Create.</span><br>Innovate.</h1>
-                    <p class="intro-subline">Our engineers turn complex ideas into elegant, high-performance software that scales.</p>
-                </div>
-            </div>
-
-            <!-- Scene 3: "Your Vision, Our Code" -->
-            <div class="intro-scene" id="intro-scene-3">
-                <div class="intro-text-block">
-                    <span class="intro-label">Full-Stack · Cloud · AI</span>
-                    <h1 class="intro-headline">Your Vision,<br><span class="text-crimson">Our Code</span></h1>
-                    <p class="intro-subline">From startups to enterprises — web apps, mobile, ecommerce, cloud infrastructure, and AI-powered solutions.</p>
+            <!-- Scene 3: Tagline -->
+            <div class="intro-scene" id="intro-scene-3" style="opacity:0">
+                <div class="intro-text-block intro-tagline">
+                    <span class="intro-label">Since 2016 Â· Sandton, Johannesburg</span>
+                    <h1 class="intro-headline">Software Engineers<br><span class="text-crimson">&amp; Web Developers</span><br>in South Africa</h1>
+                    <p class="intro-subline">WordPress specialists Â· Ecommerce experts Â· Custom software, mobile apps &amp; cloud â€” built for local businesses.</p>
                 </div>
             </div>
 
             <!-- Scene 4: CTA -->
-            <div class="intro-scene" id="intro-scene-4">
+            <div class="intro-scene" id="intro-scene-4" style="opacity:0">
                 <div class="intro-text-block intro-cta-block">
                     <div class="intro-final-logo">
-                        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <rect x="4" y="4" width="72" height="72" rx="16" stroke="#DC143C" stroke-width="3"/>
                             <path d="M28 54L20 40L28 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M52 54L60 40L52 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -144,12 +140,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="intro-scroll-prompt" id="scrollPrompt">
-            <div class="scroll-mouse"><div class="scroll-dot"></div></div>
-            <span>Scroll to explore</span>
         </div>
     </section>
     <!-- END 3D ONBOARDING -->
