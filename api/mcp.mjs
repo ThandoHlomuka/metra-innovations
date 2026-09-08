@@ -455,6 +455,23 @@ async function handleMessage(msg) {
   }
 
   switch (method) {
+    case 'server/discover': {
+      // Sessionless capability discovery (SEP-2575, MCP "connections" revision).
+      // Claude's remote connector probes this first; a JSON-RPC error here
+      // makes it fail to refresh tools even though the classic initialize
+      // handshake would otherwise succeed.
+      return {
+        resultType: 'complete',
+        supportedVersions: SUPPORTED_PROTOCOLS,
+        capabilities: CAPABILITIES,
+        _meta: { 'io.modelcontextprotocol/serverInfo': SERVER_INFO },
+        instructions:
+          'Metra Innovations MCP: query company info, services, portfolio, contact details, ' +
+          'create WhatsApp handoff links, and submit contact queries.',
+        ttlMs: 3600000,
+        cacheScope: 'public'
+      };
+    }
     case 'initialize': {
       const requested = params && params.protocolVersion;
       const version = SUPPORTED_PROTOCOLS.includes(requested) ? requested : PROTOCOL_VERSION;
@@ -779,6 +796,14 @@ export async function POST(request) {
   }
 
   try {
+    // eslint-disable-next-line no-console
+    console.log(
+      '[mcp] rpc method=' + (body.method || '(unknown)') +
+      ' id=' + String(body.id ?? 'null') +
+      ' ver=' + (request.headers.get('mcp-protocol-version') || '?') +
+      ' accept=' + String((request.headers.get('accept') || '').slice(0, 40)) +
+      ' via=' + origin
+    );
     const result = await handleMessage(body);
     if (result === null) {
       // Notification - accepted.
