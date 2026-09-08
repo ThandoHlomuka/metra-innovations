@@ -38,6 +38,7 @@ process.env.METRA_QUERY_FILE = process.env.METRA_QUERY_FILE || '/tmp/metra-conta
 
 const SERVER_INFO = { name: 'metra-innovations', version: '1.0.0' };
 const PROTOCOL_VERSION = '2024-11-05';
+const SUPPORTED_PROTOCOLS = ['2024-11-05', '2025-03-26', '2025-06-18', '2025-11-25'];
 const CAPABILITIES = { tools: {}, resources: {} };
 
 const text = (s) => ({ type: 'text', text: s });
@@ -451,8 +452,11 @@ async function handleMessage(msg) {
   }
 
   switch (method) {
-    case 'initialize':
-      return { protocolVersion: PROTOCOL_VERSION, capabilities: CAPABILITIES, serverInfo: SERVER_INFO };
+    case 'initialize': {
+      const requested = params && params.protocolVersion;
+      const version = SUPPORTED_PROTOCOLS.includes(requested) ? requested : PROTOCOL_VERSION;
+      return { protocolVersion: version, capabilities: CAPABILITIES, serverInfo: SERVER_INFO };
+    }
     case 'ping':
       return {};
     case 'tools/list':
