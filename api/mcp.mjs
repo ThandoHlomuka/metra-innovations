@@ -272,6 +272,31 @@ async function handleMessage(msg) {
   }
 }
 
+export async function GET() {
+  return new Response(
+    'Metra Innovations - MCP server (stateless JSON-RPC over HTTPS).' +
+      '\n\nAccessing this URL in a browser returns a 405 because this endpoint ' +
+      'accepts POST requests only. Connect an MCP-enabled AI agent (Claude, ' +
+      'ChatGPT, Cursor, etc.) to it instead.' +
+      '\n\nEndpoint: POST https://metra-innovations.co.za/api/mcp (or the ' +
+      '.vercel.app equivalent)' +
+      '\nContent-Type: application/json' +
+      '\nAccept: application/json, text/event-stream' +
+      '\n\nExample:' +
+      '\n  curl -s https://metra-innovations.co.za/api/mcp \\' +
+      '\n    -H "Content-Type: application/json" \\' +
+      '\n    -H "Accept: application/json, text/event-stream" \\' +
+      '\n    -d \'{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}\'',
+    {
+      status: 200,
+      headers: {
+        'content-type': 'text/plain; charset=utf-8',
+        'cache-control': 'no-store'
+      }
+    }
+  );
+}
+
 export async function POST(request) {
   let raw;
   try {
