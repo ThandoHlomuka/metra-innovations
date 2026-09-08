@@ -2,8 +2,8 @@
 # Steps in the builder UI:
 #   1. Give the GPT a name, e.g. "Metra Innovations Connector".
 #   2. Set the prompt / description to use Company tools (see below).
-#   3. Under "Actions", create a custom action pointing at the MCP Streamable HTTP
-#      endpoint (e.g. https://your-host/mcp).
+#   3. Under "Actions", create a custom action pointing at the live stateless MCP
+#      HTTPS endpoint: https://metra-innovations.co.za/api/mcp
 #   4. Confirm the server is reachable; the agent will then auto-discover the tools.
 
 Name: Metra Innovations Connector
@@ -25,6 +25,10 @@ Use the following habits:
 
 Endpoint configuration (Actions):
 - Method: POST
-- URL: https://your-host/mcp
+- URL: https://metra-innovations.co.za/api/mcp
 - Headers: Content-Type: application/json; Accept: application/json, text/event-stream
 - Auth: none (or token of your choice if you gate the server)
+
+This endpoint is "stateless MCP": one JSON-RPC request per POST. When mapping it
+into the GPT Actions builder, send the raw JSON-RPC body with a JSON response
+(expected: one response per call).

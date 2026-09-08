@@ -28,14 +28,25 @@ function resolveFile(): string {
   return path.join(__dirname, '..', 'data', 'contact-queries.json');
 }
 
+// In-memory fallback used when the surrounding host has a non-persistent or
+// read-only filesystem (e.g. a serverless function). Queries still return
+// successfully, but are not retained across cold starts until a persistent
+// store is configured via METRA_QUERY_FILE.
+let memoryBuffer: ContactQuery[] | null = null;
+let memoryUsed = false;
+
 async function readAll(): Promise<ContactQuery[]> {
+  if (memoryUsed && memoryBuffer) return memoryBuffer;
   try {
     const raw = await fs.readFile(resolveFile(), 'utf-8');
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
   } catch (e: any) {
     if (e && e.code === 'ENOENT') return [];
-    throw e;
+    // Fall back to memory on any read error (read-only/permission issues).
+    memoryUsed = true;
+    memoryBuffer = memoryBuffer ?? [];
+    return memoryBuffer;
   }
 }
 
@@ -54,8 +65,15 @@ export async function addQuery(input: Omit<ContactQuery, 'id' | 'createdAt'>): P
     ...input
   };
   all.push(record);
-  const file = resolveFile();
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  await fs.writeFile(file, JSON.stringify(all, null, 2), 'utf-8');
+  try {
+    const file = resolveFile();
+    await fs.mkdir(path.dirname(file), { recursive: true });
+    await fs.writeFile(file, JSON.stringify(all, null, 2), 'utf-8');
+  } catch (e: any) {
+    // Read-only / non-persistent host (e.g. serverless): keep in memory and
+    // continue so the call still succeeds.
+    memoryUsed = true;
+    memoryBuffer = all;
+  }
   return record;
 }

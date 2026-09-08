@@ -59,7 +59,7 @@ npm run build
 node dist/index.js
 ```
 
-### Remote (Streamable HTTP) — for connectors / GPTs / hosted agents
+### Remote (Streamable HTTP) — for local connectors / GPTs on your own host
 
 ```bash
 node dist/index.js --http --port 3388
@@ -67,6 +67,27 @@ node dist/index.js --http --port 3388
 
 The endpoint is `http://localhost:3388/mcp`, guarded to localhost
 (DNS-rebinding + cross-origin protection).
+
+### Live / online (recommended) — deployed on Vercel
+
+The MCP server is also deployed **live** as a stateless HTTP function on this
+website's Vercel hosting. It auto-deploys on every push to `main`:
+
+```
+https://metra-innovations.co.za/api/mcp
+```
+
+A **stateless** endpoint takes exactly one JSON-RPC message per HTTP POST and
+returns one JSON-RPC response. This is the simplest, most reliable option for
+remotely hosted AI agents (ChatGPT custom GPTs, hosted Claude, etc.) because it
+avoids long-lived sessions and cold-start issues.
+
+The live endpoint does **not** persist `submit_contact_query` submissions across
+cold starts (Vercel function storage is ephemeral) — it records them per warm
+instance and wins gracefully. For durable storage, add `https://metra-innovations.co.za/api/mcp` to a layer that forwards submissions to email/a database.
+
+Request/response examples (JSON-RPC over HTTP POST with `Content-Type:
+application/json`) are at the end of this document.
 
 ---
 
@@ -99,15 +120,45 @@ claude mcp add metra-innovations -- node "C:\Users\Thando Hlomuka\Desktop\Projec
 
 ### ChatGPT / custom GPT (remote connector)
 
-Run the server in HTTP mode and point the GPT "Actions" / connector at:
+Point the GPT **"Actions"** / connector at the live URL:
 
 ```
-https://your-host/mcp        (or http://localhost:3388/mcp locally)
+https://metra-innovations.co.za/api/mcp
 ```
 
-The endpoint implements the MCP **Streamable HTTP** transport (POST, `application/json`;
-SSE responses). Be sure to expose it over a URL the GPT runtime can reach, and add
-host/origin allow-listing for that host in `src/index.ts` if you serve remotely.
+This endpoint implements a stateless MCP JSON-RPC handler (POST, `application/json`;
+JSON response). Each call is one request → one response, so it works cleanly with
+hosted agents that can reach a public HTTPS URL.
+
+For local development you can also run the HTTP server (see above) and point the
+connector at `http://localhost:3388/mcp` instead.
+
+---
+
+## Live endpoint — JSON-RPC over HTTPS
+
+`POST https://metra-innovations.co.za/api/mcp` with a JSON body:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": { "protocolVersion": "2024-11-05", "capabilities": {}, "clientInfo": { "name": "agent", "version": "1.0" } }
+}
+```
+
+Example with `curl`:
+
+```bash
+curl -s https://metra-innovations.co.za/api/mcp \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}'
+```
+
+Supported methods: `initialize`, `notifications/initialized`, `ping`, `tools/list`,
+`tools/call`, `resources/list`, `resources/read`. Notifications return HTTP `202`;
+all other requests return a JSON-RPC response.
 
 ---
 
@@ -133,16 +184,26 @@ website keeps in the browser.
 ## Project layout
 
 ```
-mcp-server/
-├── src/
-│   ├── index.ts    # MCP server (tools + resources + stdio/http transports)
-│   ├── data.ts     # Company profile, services, portfolio, budget ranges
-│   └── store.ts    # Contact-query persistence (JSON file)
-├── data/           # Recorded contact queries (gitignored file)
-├── dist/           # Compiled output (gitignored)
-├── package.json
-├── tsconfig.json
-└── LICENSE
+metra-innovations/
+├── api/
+│   └── mcp.mjs        # Vercel serverless function: live, stateless HTTPS MCP endpoint
+├── mcp-server/
+│   ├── src/
+│   │   ├── index.ts       # MCP server entry (stdio / streamable HTTP transports)
+│   │   ├── server-factory.ts  # Shared tools + resources (uses lib MCP server)
+│   │   ├── data.ts        # Company profile, services, portfolio, budget ranges
+│   │   └── store.ts       # Contact-query persistence (JSON file, in-memory fallback)
+│   ├── data/           # Recorded contact queries (gitignored file)
+│   ├── dist/           # Compiled JS (committed so Vercel can import it with no build)
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── LICENSE
 ```
+
+> **Why is `dist/` committed?** The website's Vercel project is a static
+> (`framework: null`) deploy that does **not** run `npm install` or a build step.
+> Committing `mcp-server/dist/*.js` (plain JS with Node built-ins only) lets the
+> dependency-free serverless function `api/mcp.mjs` import the shared data/store
+> logic at deploy time.
 
 © 2026 Thando Hlomuka. All rights reserved.

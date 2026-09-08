@@ -41,6 +41,12 @@ build/
 *.min.css
 *.min.js
 
+# The MCP server's compiled JS is intentionally committed so the Vercel
+# serverless function (/api/mcp.mjs) can import it with no build step on a
+# static (framework: null) deploy that does not run npm install.
+!mcp-server/dist/
+!mcp-server/dist/**
+
 # Temporary files
 tmp/
 temp/
