@@ -182,9 +182,21 @@ function jsonResponse(body, status = 200, extra = {}) {
 }
 
 export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, resource, scope, actionUrl, origin }) {
-  const input = (name, value) =>
-    `<input type="hidden" name="${name}" value="${value === undefined || value === null ? '' : String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;')}">`;
+  const qs = (extra) => {
+    const p = new URLSearchParams();
+    const put = (k, v) => { if (v !== undefined && v !== null && v !== '') p.set(k, v); };
+    put('client_id', clientId);
+    put('redirect_uri', redirectUri);
+    put('code_challenge', codeChallenge);
+    put('code_challenge_method', codeChallengeMethod);
+    put('state', state);
+    put('resource', resource);
+    put('scope', scope);
+    p.set('decision', extra);
+    return '?' + p.toString();
+  };
   const displayResource = resource || mcpUrl(origin);
+  const base = actionUrl || '/oauth/authorize';
   return new Response(
     `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -196,9 +208,9 @@ export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeCh
   p{color:#b9d6bf;font-size:14px;line-height:1.5;margin:8px 0}
   .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#8fd3a3;word-break:break-all}
   .buttons{display:flex;gap:12px;margin-top:24px}
-  button{flex:1;padding:12px 16px;border-radius:10px;border:0;font-size:14px;font-weight:600;cursor:pointer}
-  button.allow{background:#3ddc6f;color:#03230c}
-  button.deny{background:#2a1718;color:#f08a8a;border:1px solid #5c2024}
+  a.btn{flex:1;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;text-align:center;text-decoration:none;display:block}
+  a.allow{background:#3ddc6f;color:#03230c}
+  a.deny{background:#2a1718;color:#f08a8a;border:1px solid #5c2024}
   .footer{margin-top:24px;font-size:11px;color:#5f7d66}
 </style></head>
 <body>
@@ -208,19 +220,10 @@ export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeCh
   <p class="mono">${displayResource}</p>
   <p>Approving grants it read access to company info, services, portfolio and
   contact details, plus the ability to submit a contact query on your behalf.</p>
-  <form method="post" action="${actionUrl}">
-    ${input('client_id', clientId)}
-    ${input('redirect_uri', redirectUri)}
-    ${input('code_challenge', codeChallenge)}
-    ${input('code_challenge_method', codeChallengeMethod)}
-    ${input('state', state)}
-    ${input('resource', resource)}
-    ${input('scope', scope)}
-    <div class="buttons">
-      <button class="deny" type="submit" name="decision" value="deny">Deny</button>
-      <button class="allow" type="submit" name="decision" value="allow">Allow</button>
-    </div>
-  </form>
+  <div class="buttons">
+    <a class="deny" href="${base}${qs('deny')}" rel="opener">Deny</a>
+    <a class="allow" href="${base}${qs('allow')}" rel="opener">Allow</a>
+  </div>
   <div class="footer">Stateless OAuth &middot; PKCE S256 &middot; replies are HMAC-signed</div>
 </div>
 </body></html>`,
