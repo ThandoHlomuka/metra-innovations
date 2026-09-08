@@ -31,7 +31,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://vercel.com https://metrainnovations.co.za https://metra-innovations.co.za; frame-ancestors 'self'; base-uri 'self'; form-action 'self' mailto:; upgrade-insecure-requests; block-all-mixed-content"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob: https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com; connect-src 'self' https://vercel.com https://metrainnovations.co.za https://metra-innovations.co.za https://www.google-analytics.com https://ssl.google-analytics.com https://pagead2.googlesyndication.com; frame-src 'self' https://www.googletagmanager.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' mailto:; upgrade-insecure-requests; block-all-mixed-content"
         },
         {
           "key": "X-Permitted-Cross-Domain-Policies",
