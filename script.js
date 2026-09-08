@@ -11,14 +11,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initSocialSharing();
 });
 
+// Shared nav section-position cache (module scope so scroll handlers can read it)
+let sectionPositions = [];
+
 // ==================== NAVBAR ====================
 function initNavbar() {
     const navbar = document.getElementById('navbar');
     const mobileToggle = document.getElementById('mobileToggle');
     const navMenu = document.getElementById('navMenu');
 
-    // Cache section positions to avoid forced reflow on scroll
-    let sectionPositions = [];
     let lastReflowTime = 0;
     const REFLOW_THROTTLE = 250; // ms
 
