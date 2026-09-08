@@ -181,9 +181,10 @@ function jsonResponse(body, status = 200, extra = {}) {
   });
 }
 
-export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, resource, scope, actionUrl }) {
+export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeChallengeMethod, state, resource, scope, actionUrl, origin }) {
   const input = (name, value) =>
     `<input type="hidden" name="${name}" value="${value === undefined || value === null ? '' : String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;')}">`;
+  const displayResource = resource || mcpUrl(origin);
   return new Response(
     `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -204,7 +205,7 @@ export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeCh
 <div class="card">
   <h1>Metra Innovations &mdash; Connect MCP</h1>
   <p>A client is requesting access to the Metra Innovations MCP server:</p>
-  <p class="mono">${resource || mcpUrl(new URL(actionUrl).origin)}</p>
+  <p class="mono">${displayResource}</p>
   <p>Approving grants it read access to company info, services, portfolio and
   contact details, plus the ability to submit a contact query on your behalf.</p>
   <form method="post" action="${actionUrl}">
@@ -215,7 +216,6 @@ export function renderConsentPage({ clientId, redirectUri, codeChallenge, codeCh
     ${input('state', state)}
     ${input('resource', resource)}
     ${input('scope', scope)}
-    ${input('decision', 'allow')}
     <div class="buttons">
       <button class="deny" type="submit" name="decision" value="deny">Deny</button>
       <button class="allow" type="submit" name="decision" value="allow">Allow</button>
@@ -535,18 +535,66 @@ function handleRegister(request, url, origin) {
   });
 }
 
-function handleAuthorizePage(request, p) {
+function isAllowedRedirect(uri) {
+  try {
+    const u = new URL(uri);
+    if (u.protocol !== 'https:') return false;
+    return u.hostname === 'claude.ai' || u.hostname.endsWith('.claude.ai');
+  } catch {
+    return false;
+  }
+}
+
+function handleAuthorizePage(request, url) {
   if (request.method !== 'GET') return jsonResponse({ error: 'invalid_request' }, 405);
+  const p = url.searchParams;
+  if (p.get('decision')) {
+    // Fallback: some popups submit the decision as a GET (or block form POSTs).
+    return authorizeDecision(p, requestOrigin(request));
+  }
   return renderConsentPage({
     clientId: p.get('client_id'),
-    redirectUri: p.get('redirect_uri'),
+    redirectUri: p.get('redirect_uri') || REDIRECT_URI,
     codeChallenge: p.get('code_challenge'),
     codeChallengeMethod: p.get('code_challenge_method'),
     state: p.get('state'),
     resource: p.get('resource'),
     scope: p.get('scope'),
-    actionUrl: '/oauth/authorize'
+    actionUrl: '/oauth/authorize',
+    origin: requestOrigin(request)
   });
+}
+
+function authorizeDecision(p, origin) {
+  const decision = p.get('decision');
+  const redirectUri = p.get('redirect_uri') || REDIRECT_URI;
+  const state = p.get('state') || '';
+  const resource = p.get('resource');
+  const challenge = p.get('code_challenge');
+  const challengeMethod = p.get('code_challenge_method');
+
+  if (!isAllowedRedirect(redirectUri)) {
+    return new Response('invalid redirect_uri', { status: 400 });
+  }
+
+  if (decision === 'deny') {
+    const target = new URL(redirectUri);
+    target.searchParams.set('error', 'access_denied');
+    target.searchParams.set('state', state);
+    return new Response(null, { status: 302, headers: { location: target.href, 'cache-control': 'no-store' } });
+  }
+
+  if (challengeMethod !== 'S256' || !challenge) {
+    return new Response('invalid authorization request: PKCE S256 required', { status: 400 });
+  }
+
+  const clientId = p.get('client_id') || 'metra-mcp-' + sha256b64u(origin + '|' + REDIRECT_URI).slice(0, 20);
+  const code = issueCode({ clientId, challenge, resource, redirectUri, state }, origin);
+
+  const target = new URL(redirectUri);
+  target.searchParams.set('code', code);
+  if (state) target.searchParams.set('state', state);
+  return new Response(null, { status: 302, headers: { location: target.href, 'cache-control': 'no-store' } });
 }
 
 async function handleAuthorizeForm(request, url, origin) {
@@ -559,31 +607,7 @@ async function handleAuthorizeForm(request, url, origin) {
   }
   const raw = await request.text().catch(() => '');
   const p = new URLSearchParams(raw);
-  const decision = p.get('decision');
-  const redirectUri = p.get('redirect_uri');
-  const state = p.get('state');
-  const resource = p.get('resource');
-  const challenge = p.get('code_challenge');
-  const challengeMethod = p.get('code_challenge_method');
-
-  if (decision === 'deny') {
-    const target = new URL(redirectUri || REDIRECT_URI);
-    target.searchParams.set('error', 'access_denied');
-    target.searchParams.set('state', state || '');
-    return new Response(null, { status: 302, headers: { location: target.href } });
-  }
-
-  if (challengeMethod !== 'S256' || !challenge || !redirectUri || redirectUri !== REDIRECT_URI) {
-    return new Response('invalid authorization request', { status: 400 });
-  }
-
-  const clientId = p.get('client_id') || 'metra-mcp-' + sha256b64u(origin + '|' + REDIRECT_URI).slice(0, 20);
-  const code = issueCode({ clientId, challenge, resource, redirectUri, state }, origin);
-
-  const target = new URL(redirectUri);
-  target.searchParams.set('code', code);
-  if (state) target.searchParams.set('state', state);
-  return new Response(null, { status: 302, headers: { location: target.href, 'cache-control': 'no-store' } });
+  return authorizeDecision(p, origin);
 }
 
 async function handleToken(request, origin) {
@@ -659,8 +683,7 @@ export async function GET(request) {
   }
 
   if (route === 'oauth-authorize') {
-    const p = url.searchParams;
-    return handleAuthorizePage(request, p);
+    return handleAuthorizePage(request, url);
   }
 
   if (route === 'mcp') {
