@@ -245,7 +245,8 @@ const TOOLS = [
     name: 'get_company_info',
     description:
       'Get general company information about Metra Innovations: name, tagline, founding year, ' +
-      'location, service areas, phone, email, WhatsApp, business hours and a short description.'
+      'location, service areas, phone, email, WhatsApp, business hours and a short description.',
+    inputSchema: { type: 'object', properties: {} }
   },
   {
     name: 'get_services',
@@ -274,7 +275,8 @@ const TOOLS = [
     name: 'get_contact_details',
     description:
       'Get contact details for Metra Innovations including phone, email, WhatsApp link, physical ' +
-      'address and business hours.'
+      'address and business hours.',
+    inputSchema: { type: 'object', properties: {} }
   },
   {
     name: 'submit_contact_query',
