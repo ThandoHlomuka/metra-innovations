@@ -94,77 +94,29 @@ export const PORTFOLIO = [
     id: 1,
     title: 'Online Store',
     category: 'E-commerce',
-    description:
-      'A full-featured e-commerce platform built for online retail. Includes inventory management, ' +
-      'payment gateway integration, and a responsive design that works across all devices.',
-    features: [
-      'Custom e-commerce platform',
-      'Payment gateway integration (PayFast, Yoco)',
-      'Inventory management system',
-      'Order tracking and management',
-      'Customer accounts and profiles',
-      'Responsive mobile-first design'
-    ],
-    technologies: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
-    client: 'Online Retailer',
-    year: '2025'
+    description: 'Full-featured e-commerce platform with inventory management',
+    url: 'https://metramarket.co.za'
   },
   {
     id: 2,
-    title: 'Digital Audio Workstation (DAW)',
+    title: 'Sthembiso Audio Station',
     category: 'Software',
-    description:
-      'A professional audio production software designed for musicians, producers, and audio engineers. ' +
-      'Features multi-track recording, MIDI sequencing, and advanced audio processing.',
-    features: [
-      'Multi-track audio recording',
-      'MIDI sequencing and editing',
-      'VST plugin support',
-      'Advanced mixing console',
-      'Real-time audio effects',
-      'Export to multiple formats'
-    ],
-    technologies: ['C++', 'JUCE Framework', 'WebAudio API', 'FFmpeg'],
-    client: 'Audio Pro Solutions',
-    year: '2025'
+    description: 'Professional web-based DAW (Digital Audio Workstation) for music production',
+    url: 'https://sthembiso-audio-station.vercel.app'
   },
   {
     id: 3,
-    title: 'E-tolling Payment System',
+    title: 'Tollgate System',
     category: 'Web Development',
-    description:
-      'An electronic toll collection and payment platform enabling seamless toll payments for motorists. ' +
-      'Includes account management, automated billing, and real-time transaction processing.',
-    features: [
-      'Electronic toll collection',
-      'Account management portal',
-      'Automated billing system',
-      'Real-time transaction processing',
-      'SMS and email notifications',
-      'Integration with banking systems'
-    ],
-    technologies: ['Java', 'Spring Boot', 'PostgreSQL', 'Redis'],
-    client: 'Transport Authority',
-    year: '2025'
+    description: 'Electronic toll collection and payment platform',
+    url: 'https://toollgate.vercel.app'
   },
   {
     id: 4,
-    title: 'Task Finder',
+    title: 'Cosmic Visualizer',
     category: 'Software',
-    description:
-      'A comprehensive task management and productivity platform to organize, track, and complete work ' +
-      'efficiently. Features task creation, priority management, and collaborative tools.',
-    features: [
-      'Task creation and management',
-      'Priority and deadline tracking',
-      'Team collaboration tools',
-      'Progress visualization',
-      'Automated reminders',
-      'Integration with calendar apps'
-    ],
-    technologies: ['TypeScript', 'React', 'Node.js', 'PostgreSQL'],
-    client: 'Productivity Solutions',
-    year: '2025'
+    description: 'Run cosmic simulations with real-time data for free and without the need to know code',
+    url: 'https://cosmic-visualizer.vercel.app'
   }
 ];
 

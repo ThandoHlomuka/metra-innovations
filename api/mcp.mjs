@@ -339,8 +339,7 @@ async function readResource(uri) {
           title: p.title,
           category: p.category,
           description: p.description,
-          technologies: p.technologies,
-          year: p.year
+          url: p.url
         })),
         null,
         2

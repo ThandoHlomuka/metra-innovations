@@ -32,10 +32,7 @@ export declare const PORTFOLIO: {
     title: string;
     category: string;
     description: string;
-    features: string[];
-    technologies: string[];
-    client: string;
-    year: string;
+    url: string;
 }[];
 export declare const KEYWORDS: string[];
 //# sourceMappingURL=data.d.ts.map
