@@ -1,0 +1,6 @@
+node_modules/
+dist/
+data/contact-queries.json
+*.log
+.env
+.env.local

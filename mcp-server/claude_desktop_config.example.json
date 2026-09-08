@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/claude.settings",
+  "mcpServers": {
+    "metra-innovations": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\Thando Hlomuka\\Desktop\\Projects\\Metra-Innovations\\mcp-server\\dist\\index.js"
+      ]
+    }
+  }
+}
