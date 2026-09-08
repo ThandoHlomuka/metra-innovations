@@ -27,6 +27,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Content Security Policy (CSP) - XSS Protection -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: blob:; connect-src 'self' https://vercel.com https://metrainnovations.co.za https://metra-innovations.co.za; frame-ancestors 'self'; base-uri 'self'; form-action 'self' mailto:; upgrade-insecure-requests; block-all-mixed-content;">
 
+    <!-- First-visit onboarding redirect: play the 3D welcome tour once, then straight to the site -->
+    <script>
+        (function () {
+            try {
+                var onboarded = localStorage.getItem('metra_onboarded');
+                var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (!onboarded && !reduced) {
+                    var base = location.pathname.replace(/[^/]*$/, '') + 'onboarding.html';
+                    location.replace(base);
+                }
+            } catch (e) { /* ignore opaque storage errors */ }
+        })();
+    </script>
+    <!-- End first-visit onboarding redirect -->
+
     <!-- Performance Budget -->
     <meta name="performance-budget" content="script: 200KB, style: 100KB, image: 500KB, total: 1MB">
     <meta name="max-request-count" content="50">
@@ -85,7 +100,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
     <!-- Preload Critical Resources -->
-    <link rel="preload" as="style" href="styles.css?v=2">
+    <link rel="preload" as="style" href="styles.css?v=3">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=400&q=80" fetchpriority="high">
 
     <!-- Preload Google Font (Inter) -->
@@ -160,15 +175,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
     <!-- Styles (Non-render-blocking) -->
-    <link rel="stylesheet" href="styles.css?v=2" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="styles.css?v=2"></noscript>
-    
-    <!-- Three.js + GSAP (deferred, for 3D intro) -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-    <script defer src="intro-3d.js?v=2"></script>
+    <link rel="stylesheet" href="styles.css?v=3" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css?v=3"></noscript>
     
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
@@ -662,92 +670,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    <!-- ================================================================
-         3D INTRO — Full-screen immersive landing experience
-         Scroll-driven scenes with Three.js particles + GSAP ScrollTrigger.
-         At the end the user clicks "Explore Metra" to enter the site.
-         ================================================================ -->
-    <section id="intro-3d" aria-label="Immersive 3D Introduction">
-        <canvas id="intro-canvas"></canvas>
-        <div id="intro-content">
-            <!-- Scene 0: Opening — code rain converges into the Metra logo -->
-            <div class="intro-scene" id="intro-scene-0">
-                <div class="intro-opening">
-                    <div class="intro-code-lines" id="codeLines" aria-hidden="true"></div>
-                    <div class="intro-logo-lockup">
-                        <div class="intro-logo-icon">
-                            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4" y="4" width="72" height="72" rx="16" stroke="#DC143C" stroke-width="3"/>
-                                <path d="M28 54L20 40L28 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M52 54L60 40L52 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <line x1="46" y1="24" x2="34" y2="56" stroke="#F5E6D3" stroke-width="2.5" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="intro-logo-wordmark">METRA</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Scene 1: "We Build Digital Experiences" -->
-            <div class="intro-scene" id="intro-scene-1">
-                <div class="intro-text-block">
-                    <span class="intro-label">Software Development Company</span>
-                    <h1 class="intro-headline">We Build<br><span class="text-crimson">Digital Experiences</span></h1>
-                    <p class="intro-subline">Crafting world-class software, web platforms, and intelligent solutions for South African businesses since 2016.</p>
-                </div>
-            </div>
-
-            <!-- Scene 2: "Code. Create. Innovate." -->
-            <div class="intro-scene" id="intro-scene-2">
-                <div class="intro-text-block">
-                    <span class="intro-label">Sandton, Johannesburg</span>
-                    <h1 class="intro-headline">Code.<br><span class="text-crimson">Create.</span><br>Innovate.</h1>
-                    <p class="intro-subline">Our engineers turn complex ideas into elegant, high-performance software that scales.</p>
-                </div>
-            </div>
-
-            <!-- Scene 3: "Your Vision, Our Code" -->
-            <div class="intro-scene" id="intro-scene-3">
-                <div class="intro-text-block">
-                    <span class="intro-label">Full-Stack · Cloud · AI</span>
-                    <h1 class="intro-headline">Your Vision,<br><span class="text-crimson">Our Code</span></h1>
-                    <p class="intro-subline">From startups to enterprises — web apps, mobile, ecommerce, cloud infrastructure, and AI-powered solutions.</p>
-                </div>
-            </div>
-
-            <!-- Scene 4: CTA -->
-            <div class="intro-scene" id="intro-scene-4">
-                <div class="intro-text-block intro-cta-block">
-                    <div class="intro-final-logo">
-                        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="4" y="4" width="72" height="72" rx="16" stroke="#DC143C" stroke-width="3"/>
-                            <path d="M28 54L20 40L28 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M52 54L60 40L52 26" stroke="#DC143C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                            <line x1="46" y1="24" x2="34" y2="56" stroke="#F5E6D3" stroke-width="2.5" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                    <h1 class="intro-headline">Ready to<br><span class="text-crimson">Innovate?</span></h1>
-                    <p class="intro-subline">Let's build something extraordinary together.</p>
-                    <a href="#home" class="intro-cta-btn" id="enterSiteBtn">
-                        Explore Metra <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <div class="intro-stats-row">
-                        <div class="intro-stat"><span class="intro-stat-num">150+</span><span class="intro-stat-lbl">Projects</span></div>
-                        <div class="intro-stat"><span class="intro-stat-num">50+</span><span class="intro-stat-lbl">Clients</span></div>
-                        <div class="intro-stat"><span class="intro-stat-num">10+</span><span class="intro-stat-lbl">Years</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Scroll indicator -->
-        <div class="intro-scroll-prompt" id="scrollPrompt">
-            <div class="scroll-mouse"><div class="scroll-dot"></div></div>
-            <span>Scroll to explore</span>
-        </div>
-    </section>
-    <!-- END 3D INTRO -->
-    
     <!-- Skip to Content Link (Accessibility) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
     

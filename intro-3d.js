@@ -1,7 +1,10 @@
 /**
- * Metra Innovations — Immersive 3D Intro
+ * Metra Innovations — Immersive 3D Onboarding
  *
- * Full-screen, scroll-driven introduction powered by Three.js + GSAP ScrollTrigger.
+ * Full-screen, scroll-driven welcome experience powered by Three.js + GSAP
+ * ScrollTrigger. Lives on onboarding.html and shows to first-time visitors
+ * before entering the main site (index.html).
+ *
  * Five scenes animate in sequence as the user scrolls:
  *   0  Code rain converges into the Metra logo
  *   1  "We Build Digital Experiences"
@@ -9,7 +12,7 @@
  *   3  "Your Vision, Our Code"
  *   4  CTA — "Explore Metra" button enters the main site
  *
- * Reduced-motion: skips the 3D intro entirely and reveals the main site.
+ * Reduced-motion: skips the intro and sends the visitor to the main site.
  */
 
 (function () {
@@ -34,12 +37,15 @@
     }
   }
 
+  /* ── finish onboarding → flag + navigate to main site ──────────── */
+  function finishOnboarding() {
+    try { localStorage.setItem('metra_onboarded', '1'); } catch (e) { /* ignore */ }
+    window.location.replace('index.html');
+  }
+
   /* ── reduced-motion fallback ──────────────────────────────────── */
   function skipIntro() {
-    var intro = document.getElementById('intro-3d');
-    if (intro) intro.style.display = 'none';
-    var nav = document.getElementById('navbar');
-    if (nav) nav.style.opacity = '1';
+    finishOnboarding();
   }
 
   /* ── main ─────────────────────────────────────────────────────── */
@@ -176,17 +182,6 @@ if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
       }
     });
 
-    /* hide navbar during intro */
-    ScrollTrigger.create({
-      trigger: intro,
-      start: 'top top',
-      end: 'bottom top',
-      onEnter: function () { var n = document.getElementById('navbar'); if (n) n.style.opacity = '0'; },
-      onLeave: function () { var n = document.getElementById('navbar'); if (n) n.style.opacity = '1'; },
-      onEnterBack: function () { var n = document.getElementById('navbar'); if (n) n.style.opacity = '0'; },
-      onLeaveBack: function () { var n = document.getElementById('navbar'); if (n) n.style.opacity = '1'; }
-    });
-
     /* scene 0: code rain + logo fade-in */
     var scene0 = document.getElementById('intro-scene-0');
     var logoLockup = document.querySelector('#intro-scene-0 .intro-logo-lockup');
@@ -230,12 +225,16 @@ if (typeof ScrollToPlugin !== 'undefined') gsap.registerPlugin(ScrollToPlugin);
     if (enterBtn) {
       enterBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        var target = document.getElementById('home');
-        if (typeof gsap.plugins !== 'undefined' && gsap.plugins.scrollTo) {
-          gsap.to(window, { scrollTo: { y: target, autoKill: false }, duration: 1.4, ease: 'power2.inOut' });
-        } else if (target) {
-          window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset, behavior: 'smooth' });
-        }
+        finishOnboarding();
+      });
+    }
+
+    /* ── "Skip intro" link ───────────────────────────────────────── */
+    var skipBtn = document.getElementById('introSkipBtn');
+    if (skipBtn) {
+      skipBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        finishOnboarding();
       });
     }
 
