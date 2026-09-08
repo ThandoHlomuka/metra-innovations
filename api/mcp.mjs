@@ -565,6 +565,25 @@ function handleAuthorizePage(request, url) {
   });
 }
 
+function oauthRedirect(location, status = 302) {
+  // Header rules in vercel.json are evaluated against the post-rewrite path
+  // (/api/mcp), so the site-wide COOP: same-origin can smuggle onto OAuth
+  // responses. Set permissive cross-origin headers HERE on every navigation
+  // response so a browser popup keeps its opener handle through the redirect
+  // to claude.ai's callback. Function-set headers precede platform-injected
+  // duplicates, so the first value the browser sees is the permissive one.
+  return new Response(null, {
+    status,
+    headers: {
+      location,
+      'cross-origin-opener-policy': 'unsafe-none',
+      'cross-origin-embedder-policy': 'unsafe-none',
+      'cross-origin-resource-policy': 'cross-origin',
+      'cache-control': 'no-store'
+    }
+  });
+}
+
 function authorizeDecision(p, origin) {
   const decision = p.get('decision');
   const redirectUri = p.get('redirect_uri') || REDIRECT_URI;
@@ -581,7 +600,7 @@ function authorizeDecision(p, origin) {
     const target = new URL(redirectUri);
     target.searchParams.set('error', 'access_denied');
     target.searchParams.set('state', state);
-    return new Response(null, { status: 302, headers: { location: target.href, 'cache-control': 'no-store' } });
+    return oauthRedirect(target.href);
   }
 
   if (challengeMethod !== 'S256' || !challenge) {
@@ -594,7 +613,7 @@ function authorizeDecision(p, origin) {
   const target = new URL(redirectUri);
   target.searchParams.set('code', code);
   if (state) target.searchParams.set('state', state);
-  return new Response(null, { status: 302, headers: { location: target.href, 'cache-control': 'no-store' } });
+  return oauthRedirect(target.href);
 }
 
 async function handleAuthorizeForm(request, url, origin) {
@@ -603,7 +622,7 @@ async function handleAuthorizeForm(request, url, origin) {
     const target = new URL(url.href);
     target.pathname = '/oauth/authorize';
     target.search = '';
-    return new Response(null, { status: 307, headers: { location: target.href } });
+    return oauthRedirect(target.href, 307);
   }
   const raw = await request.text().catch(() => '');
   const p = new URLSearchParams(raw);
