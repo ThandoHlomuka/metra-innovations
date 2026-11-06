@@ -150,6 +150,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .stat-label{font-size:.875rem;color:#757575;margin-top:.5rem;min-height:1.25rem}
         @media(max-width:768px){.nav-menu{display:none}.mobile-toggle{display:block}.hero-stats{grid-template-columns:repeat(2,1fr)}.section-title{font-size:2rem}.hero-subtitle{min-height:6rem;font-size:1rem}.hero-title{min-height:1.2em;font-size:2.5rem}.hero-content{padding-top:2rem}}
         @media(max-width:480px){.hero{padding:100px 0 60px}.hero-title{font-size:2rem}.hero-subtitle{font-size:.9375rem;line-height:1.7}}
+        /* Jobs & Opportunities strip */
+        .opp-strip{padding:4rem 0;background:linear-gradient(120deg,#1a5232,#0a2918 65%);border-top:1px solid rgba(245,230,211,.12);border-bottom:1px solid rgba(245,230,211,.12)}
+        .opp-strip-inner{display:flex;flex-wrap:wrap;gap:2rem;align-items:center;justify-content:space-between}
+        .opp-strip-copy{max-width:640px}
+        .opp-strip h2{color:#F5E6D3;font-size:clamp(1.5rem,3vw,2rem);font-weight:800;margin:.75rem 0 .6rem}
+        .opp-strip p{color:#bccbc1;margin:0 0 1rem}
+        .opp-strip-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+        .opp-strip-tags span{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:600;color:#e6f0e9;background:rgba(245,230,211,.07);border:1px solid rgba(245,230,211,.14);padding:.3rem .7rem;border-radius:999px}
+        .opp-strip-tags i{color:#ff8fa3;font-size:.75rem}
+        .opp-strip-actions{display:flex;flex-direction:column;gap:.85rem;align-items:flex-start}
+        .opp-strip-link{color:#F5E6D3;font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.5rem;border-bottom:1px solid rgba(245,230,211,.25);padding-bottom:.15rem}
+        .opp-strip-link:hover{color:#DC143C;border-color:#DC143C}
+        @media(max-width:768px){.opp-strip .btn-lg{width:100%;justify-content:center}}
     </style>
 
     <!-- Fonts (Deferred for Mobile - Non-blocking) -->
@@ -714,6 +727,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <li role="none"><a href="#services" class="nav-link" role="menuitem">Services</a></li>
                 <li role="none"><a href="#portfolio" class="nav-link" role="menuitem">Portfolio</a></li>
                 <li role="none"><a href="games.html" class="nav-link" role="menuitem">Games</a></li>
+                <li role="none"><a href="jobs.html" class="nav-link" role="menuitem">Jobs</a></li>
                 <li role="none"><a href="#performance" class="nav-link" role="menuitem">Our Quality</a></li>
                 <li role="none"><a href="#testimonials" class="nav-link" role="menuitem">Testimonials</a></li>
                 <li role="none"><a href="#faq" class="nav-link" role="menuitem">FAQ</a></li>
@@ -1529,6 +1543,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
     </section>
 
+    <!-- Jobs & Opportunities strip -->
+    <section class="opp-strip" aria-label="Jobs and opportunities">
+        <div class="container opp-strip-inner">
+            <div class="opp-strip-copy">
+                <span class="section-badge">Jobs &amp; Opportunities</span>
+                <h2>Work with us — or through us</h2>
+                <p>Software, AI, web and IT roles, gigs and internships. New opportunities are posted on our jobs board as they open.</p>
+                <div class="opp-strip-tags">
+                    <span><i class="fas fa-code" aria-hidden="true"></i> Software</span>
+                    <span><i class="fas fa-robot" aria-hidden="true"></i> AI &amp; Data</span>
+                    <span><i class="fas fa-globe" aria-hidden="true"></i> Web</span>
+                    <span><i class="fas fa-server" aria-hidden="true"></i> IT &amp; Support</span>
+                </div>
+            </div>
+            <div class="opp-strip-actions">
+                <a href="jobs.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-briefcase" aria-hidden="true"></i> View Jobs &amp; Opportunities
+                </a>
+                <a href="jobs.html#post-opportunity" class="opp-strip-link">Post an opportunity <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="contact" id="contact">
         <div class="container">
@@ -1693,10 +1730,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <li><a href="#services">Services</a></li>
                         <li><a href="#portfolio">Portfolio</a></li>
                         <li><a href="games.html">Games</a></li>
+                        <li><a href="jobs.html">Jobs &amp; Opportunities</a></li>
                         <li><a href="#faq">FAQ</a></li>
                         <li><a href="#testimonials">Testimonials</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="#" onclick="showCareersPopup(); return false;">Careers</a></li>
                     </ul>
                 </div>
 
