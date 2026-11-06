@@ -409,12 +409,15 @@ section {
 
 .nav-menu {
     display: flex;
-    gap: 2rem;
+    gap: 1.15rem;
+    align-items: center;
 }
 
 .nav-link {
     color: var(--gray-300);
     font-weight: 500;
+    font-size: 0.9rem;
+    white-space: nowrap;
     position: relative;
     padding: 0.5rem 0;
 }
@@ -444,8 +447,12 @@ section {
     display: flex;
     align-items: center;
     gap: 1rem;
-    min-width: 120px;
     contain: layout style;
+}
+
+/* "Get Quote" lives in the mobile drawer only */
+.mobile-only-cta {
+    display: none;
 }
 
 .mobile-toggle {
@@ -2364,7 +2371,8 @@ section {
     }
 }
 
-@media (max-width: 768px) {
+/* Collapse to a drawer before the links start crowding the logo */
+@media (max-width: 1100px) {
     .nav-menu {
         position: fixed;
         top: 80px;
@@ -2373,8 +2381,11 @@ section {
         height: calc(100vh - 80px);
         background: var(--green-dark);
         flex-direction: column;
+        align-items: flex-start;
+        gap: 1.35rem;
         padding: 2rem;
         transition: var(--transition-base);
+        overflow-y: auto;
     }
     
     .nav-menu.active {
@@ -2397,7 +2408,9 @@ section {
         justify-content: center;
         padding: 1rem;
     }
+}
 
+@media (max-width: 768px) {
     .hero-title {
         font-size: 2.5rem;
         min-height: 3rem;

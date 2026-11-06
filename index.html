@@ -100,7 +100,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
     <!-- Preload Critical Resources -->
-    <link rel="preload" as="style" href="styles.css?v=4">
+    <link rel="preload" as="style" href="styles.css?v=5">
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&h=400&q=80" fetchpriority="high">
 
     <!-- Preload Google Font (Inter) -->
@@ -127,10 +127,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .logo-text{display:flex;flex-direction:column}
         .logo-main{font-size:1.5rem;font-weight:800;color:#F5E6D3;line-height:1}
         .logo-sub{font-size:0.875rem;color:#9e9e9e;line-height:1}
-        .nav-menu{display:flex;gap:2rem;align-items:center}
-        .nav-link{color:#d0d0d0;font-weight:500;transition:.3s ease;padding:.5rem 0}
+        .nav-menu{display:flex;gap:1.15rem;align-items:center}
+        .nav-link{color:#d0d0d0;font-weight:500;font-size:.9rem;white-space:nowrap;transition:.3s ease;padding:.5rem 0}
         .nav-link:hover,.nav-link.active{color:#DC143C}
-        .nav-actions{display:flex;align-items:center;gap:1rem;min-width:120px}
+        .nav-actions{display:flex;align-items:center;gap:1rem}
+        .mobile-only-cta{display:none}
         .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:8px;font-weight:600;transition:.3s ease;text-decoration:none;cursor:pointer}
         .btn-primary{background:linear-gradient(135deg,#DC143C,#c41e3a);color:#fff;box-shadow:0 4px 16px rgba(220,20,60,.3);min-width:100px;text-align:center}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(220,20,60,.4)}
@@ -148,7 +149,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .stat-item{text-align:center}
         .stat-number{font-size:2.5rem;font-weight:900;color:#DC143C;line-height:1;min-height:2.5rem}
         .stat-label{font-size:.875rem;color:#757575;margin-top:.5rem;min-height:1.25rem}
-        @media(max-width:768px){.nav-menu{display:none}.mobile-toggle{display:block}.hero-stats{grid-template-columns:repeat(2,1fr)}.section-title{font-size:2rem}.hero-subtitle{min-height:6rem;font-size:1rem}.hero-title{min-height:1.2em;font-size:2.5rem}.hero-content{padding-top:2rem}}
+        @media(max-width:1100px){.nav-menu{display:none}.mobile-toggle{display:block}}
+        @media(max-width:768px){.hero-stats{grid-template-columns:repeat(2,1fr)}.section-title{font-size:2rem}.hero-subtitle{min-height:6rem;font-size:1rem}.hero-title{min-height:1.2em;font-size:2.5rem}.hero-content{padding-top:2rem}}
         @media(max-width:480px){.hero{padding:100px 0 60px}.hero-title{font-size:2rem}.hero-subtitle{font-size:.9375rem;line-height:1.7}}
         /* Jobs & Opportunities strip */
         .opp-strip{padding:4rem 0;background:linear-gradient(120deg,#1a5232,#0a2918 65%);border-top:1px solid rgba(245,230,211,.12);border-bottom:1px solid rgba(245,230,211,.12)}
@@ -188,8 +190,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
     <!-- Styles (Non-render-blocking) -->
-    <link rel="stylesheet" href="styles.css?v=4" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="styles.css?v=4"></noscript>
+    <link rel="stylesheet" href="styles.css?v=5" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css?v=5"></noscript>
     
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">

@@ -66,7 +66,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
     <!-- Preload Critical Resources -->
-    <link rel="preload" as="style" href="styles.css?v=4">
+    <link rel="preload" as="style" href="styles.css?v=5">
 
     <!-- Critical CSS (Inline for Above-the-Fold Content) -->
     <style>
@@ -88,15 +88,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .logo-text{display:flex;flex-direction:column}
         .logo-main{font-size:1.5rem;font-weight:800;color:#F5E6D3;line-height:1}
         .logo-sub{font-size:0.875rem;color:#9e9e9e;line-height:1}
-        .nav-menu{display:flex;gap:2rem;align-items:center}
-        .nav-link{color:#d0d0d0;font-weight:500;transition:.3s ease;padding:.5rem 0}
+        .nav-menu{display:flex;gap:1.15rem;align-items:center}
+        .nav-link{color:#d0d0d0;font-weight:500;font-size:.9rem;white-space:nowrap;transition:.3s ease;padding:.5rem 0}
+        .mobile-only-cta{display:none}
         .nav-link:hover,.nav-link.active{color:#DC143C}
         .nav-actions{display:flex;align-items:center;gap:1rem;min-width:120px}
         .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;border-radius:8px;font-weight:600;transition:.3s ease;text-decoration:none;cursor:pointer}
         .btn-primary{background:linear-gradient(135deg,#DC143C,#c41e3a);color:#fff;box-shadow:0 4px 16px rgba(220,20,60,.3);min-width:100px;text-align:center}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(220,20,60,.4)}
         .mobile-toggle{display:none;background:none;color:#d0d0d0;font-size:1.5rem}
-        @media(max-width:768px){.nav-menu{display:none}.mobile-toggle{display:block}}
+        @media(max-width:1100px){.nav-menu{display:none}.mobile-toggle{display:block}}
 
         /* ===== Jobs & Opportunities page ===== */
         :root{--jobs-ink:#0a2918;--jobs-surface:#0f3520;--jobs-surface-2:#123c26;--jobs-line:rgba(245,230,211,.13);--jobs-cream:#F5E6D3;--jobs-crimson:#DC143C;--jobs-muted:#a9bab0}
@@ -138,6 +139,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .filter-search input::placeholder{color:#7f9587}
         .filter-search input:focus{outline:none;border-color:rgba(220,20,60,.7);box-shadow:0 0 0 3px rgba(220,20,60,.16)}
         .clear-search{position:absolute;right:.55rem;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;color:#a9bab0;background:rgba(245,230,211,.08)}
+        .clear-search[hidden]{display:none}
         .clear-search:hover{color:#fff;background:rgba(220,20,60,.5)}
         .filter-sort{display:flex;align-items:center;gap:.55rem}
         .filter-sort label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--jobs-muted);font-weight:700}
@@ -238,8 +240,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
 
     <!-- Styles (Non-render-blocking) -->
-    <link rel="stylesheet" href="styles.css?v=4" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="styles.css?v=4"></noscript>
+    <link rel="stylesheet" href="styles.css?v=5" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css?v=5"></noscript>
 
     <!-- Structured Data / JSON-LD -->
     <script type="application/ld+json">
@@ -265,6 +267,116 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         "itemListElement": [
             { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.metra-innovations.co.za/" },
             { "@type": "ListItem", "position": 2, "name": "Jobs & Opportunities", "item": "https://www.metra-innovations.co.za/jobs.html" }
+        ]
+    }
+    </script>
+
+    <!-- JobPosting Schema (feeds Google Jobs / rich results) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "JobPosting",
+                "title": "Junior Full-Stack Developer",
+                "description": "Work alongside our senior team shipping client web apps and internal tools. Pick up tickets across front-end and back-end, review code, and grow into owning features end to end.",
+                "datePosted": "2026-11-04",
+                "validThrough": "2027-03-31",
+                "employmentType": "FULL_TIME",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocationType": "TELECOMMUTE",
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "minValue": 18000, "maxValue": 25000, "unitText": "MONTH" } },
+                "skills": "JavaScript, Node.js, Git, REST APIs"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "Software Development Intern",
+                "description": "A hands-on internship for a student or recent graduate. Build real features on live projects with mentorship, code reviews and a portfolio you can show employers.",
+                "datePosted": "2026-11-02",
+                "validThrough": "2027-03-31",
+                "employmentType": "INTERN",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "value": 6500, "unitText": "MONTH" } },
+                "skills": "HTML, CSS, JavaScript"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "AI Automation Engineer",
+                "description": "Build LLM-powered workflows for small businesses: prompt pipelines, document extraction, and integrations between AI models and existing tools. Project-based, scoped per client.",
+                "datePosted": "2026-10-30",
+                "validThrough": "2027-03-31",
+                "employmentType": "CONTRACTOR",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocationType": "TELECOMMUTE",
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "minValue": 35000, "maxValue": 60000, "unitText": "MONTH" } },
+                "skills": "Python, LLM APIs, Automation, MCP"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "Data & Analytics Intern",
+                "description": "Clean, model and visualise client data. Learn to turn messy spreadsheets into dashboards and reports that decision makers actually use.",
+                "datePosted": "2026-10-30",
+                "validThrough": "2027-03-31",
+                "employmentType": "INTERN",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocationType": "TELECOMMUTE",
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "value": 7000, "unitText": "MONTH" } },
+                "skills": "Excel, SQL, Power BI, Python"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "Freelance Website Developer",
+                "description": "Overflow website work passed to trusted freelancers: small business sites, landing pages and redesigns. Fixed price per build, with more work as you deliver.",
+                "datePosted": "2026-10-28",
+                "validThrough": "2027-03-31",
+                "employmentType": "CONTRACTOR",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocationType": "TELECOMMUTE",
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "minValue": 5000, "maxValue": 18000, "unitText": "MONTH" } },
+                "skills": "HTML, CSS, WordPress, Responsive Design"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "UX/UI Designer",
+                "description": "Design clean, conversion-focused interfaces for client websites and our own products. Own wireframes, visual design and the handoff specs developers build from.",
+                "datePosted": "2026-10-23",
+                "validThrough": "2027-03-31",
+                "employmentType": "PART_TIME",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocationType": "TELECOMMUTE",
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "minValue": 12000, "maxValue": 18000, "unitText": "MONTH" } },
+                "skills": "Figma, Design Systems, Prototyping"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "IT Support Technician",
+                "description": "Support client hardware, networks and Microsoft 365 setups. Set up machines, troubleshoot connectivity, and keep small business IT environments running.",
+                "datePosted": "2026-10-23",
+                "validThrough": "2027-03-31",
+                "employmentType": "FULL_TIME",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "streetAddress": "Johannesburg", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "minValue": 14000, "maxValue": 20000, "unitText": "MONTH" } },
+                "skills": "Windows, Networking, Microsoft 365, Hardware"
+            },
+            {
+                "@type": "JobPosting",
+                "title": "Senior Backend Engineer",
+                "description": "Lead the architecture behind our client systems and MCP integrations. Design APIs, set technical standards, and mentor the developers coming up behind you.",
+                "datePosted": "2026-10-21",
+                "validThrough": "2027-03-31",
+                "employmentType": "FULL_TIME",
+                "hiringOrganization": { "@type": "Organization", "name": "Metra Innovations", "sameAs": "https://www.metra-innovations.co.za/" },
+                "jobLocation": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Johannesburg", "addressRegion": "Gauteng", "addressCountry": "ZA" } },
+                "baseSalary": { "@type": "MonetaryAmount", "currency": "ZAR", "value": { "@type": "QuantitativeValue", "minValue": 55000, "maxValue": 75000, "unitText": "MONTH" } },
+                "skills": "Node.js, PostgreSQL, System Design"
+            }
         ]
     }
     </script>
